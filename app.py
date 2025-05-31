@@ -2,6 +2,23 @@ import streamlit as st
 import pandas as pd
 
 st.set_page_config(page_title="MLB Odds Dashboard", layout="wide")
+
+# === Inject Custom CSS for Section Headers ===
+st.markdown(
+    """
+    <style>
+    .custom-header {
+        color: #00FFC2;
+        font-size: 32px;
+        font-weight: 600;
+        margin-top: 2em;
+        margin-bottom: 0.5em;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 st.title("MLB Web Odds Viewer")
 
 # === Refresh Button ===
@@ -35,7 +52,8 @@ def load_totals():
 
 # === SECTION 1: Game Summary ===
 df_game = load_game_details()
-st.header("All Games")
+st.markdown("### <span class='custom-header'>All Games</span>", unsafe_allow_html=True)
+#st.header("All Games")
 
 st.sidebar.header("Games Filters")
 game_selected = st.sidebar.multiselect("Game Status", sorted(df_game["Game Status"].dropna().unique()), default=[])
