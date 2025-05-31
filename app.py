@@ -23,9 +23,10 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
+#FF2EB6
+#00FFC2
 st.markdown(
-    "<h1 style='color: #00FFC2; font-weight: bold;'>MLB AI Model Viewer</h1>",
+    "<h1 style='color: #FF2EB6; font-weight: bold;'>MLB AI Model Viewer</h1>",
     unsafe_allow_html=True
 )
 
