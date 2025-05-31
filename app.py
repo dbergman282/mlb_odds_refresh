@@ -23,7 +23,10 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("MLB Web Odds Viewer")
+st.markdown(
+    "<h1 style='color: #00FFC2; font-weight: bold;'>MLB AI Model Viewer</h1>",
+    unsafe_allow_html=True
+)
 
 # === Refresh Button ===
 if st.sidebar.button("🔄 Refresh All Data"):
