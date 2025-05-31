@@ -69,8 +69,8 @@ except Exception as e:
     current_time = f"Error fetching time: {e}"
 
 # Display in the app
-st.title("Last Simulation Start")
-st.write(f"Last updated time: **{current_time}**")
+#st.title("Last Simulation Start")
+st.write(f"Last simulation start time: **{current_time}**")
 
 # === SECTION 1: Game Summary ===
 df_game = load_game_details()
