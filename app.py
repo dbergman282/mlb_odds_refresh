@@ -20,20 +20,20 @@ def numeric_slider(df, column, label):
         step=(max_val - min_val) / 100
     )
 
-# === Load Game Odds ===
+# === Load Data ===
 @st.cache_data
 def load_game_details():
-    url = st.secrets["GAMES_URL"]
-    df = pd.read_csv(url, index_col=False)
-    return df
+    return pd.read_csv(st.secrets["GAMES_URL"], index_col=False)
+
+@st.cache_data
+def load_moneyline():
+    return pd.read_csv(st.secrets["H2H_URL"], index_col=False)
 
 @st.cache_data
 def load_totals():
-    url = st.secrets["TOTALS_URL"]
-    df = pd.read_csv(url, index_col=False)
-    return df
+    return pd.read_csv(st.secrets["TOTALS_URL"], index_col=False)
 
-# === SECTION 1: Game Odds ===
+# === SECTION 1: Game Summary ===
 df_game = load_game_details()
 st.header("All Games")
 
@@ -52,48 +52,85 @@ if home_team_selected:
 
 st.dataframe(filtered_game, use_container_width=True)
 
-# === SECTION 2: Totals Odds ===
+# === SECTION 2: Moneyline Odds ===
+st.header("Moneyline Odds")
+
+df_moneyline = load_moneyline()
+
+st.sidebar.header("Moneyline Filters")
+mlb_game_ids_moneyline = st.sidebar.multiselect(
+    "MLB Game ID (Moneyline)", 
+    sorted(df_moneyline["MLB Game ID"].dropna().unique()), 
+    default=[]
+)
+bookmakers_moneyline = st.sidebar.multiselect(
+    "Bookmaker (Moneyline)", 
+    sorted(df_moneyline["Bookmaker"].dropna().unique()), 
+    default=[]
+)
+teams_moneyline = st.sidebar.multiselect(
+    "Team", 
+    sorted(df_moneyline["Team"].dropna().unique()), 
+    default=[]
+)
+roi_range_moneyline = numeric_slider(df_moneyline, "Estimated ROI (%)", "ROI (%) Range (Moneyline)")
+
+filtered_moneyline = df_moneyline.copy()
+if mlb_game_ids_moneyline:
+    filtered_moneyline = filtered_moneyline[filtered_moneyline["MLB Game ID"].isin(mlb_game_ids_moneyline)]
+if bookmakers_moneyline:
+    filtered_moneyline = filtered_moneyline[filtered_moneyline["Bookmaker"].isin(bookmakers_moneyline)]
+if teams_moneyline:
+    filtered_moneyline = filtered_moneyline[filtered_moneyline["Team"].isin(teams_moneyline)]
+
+filtered_moneyline = filtered_moneyline[
+    filtered_moneyline["Estimated ROI (%)"].between(*roi_range_moneyline)
+]
+
+st.dataframe(filtered_moneyline, use_container_width=True)
+
+# === SECTION 3: Totals Odds ===
 st.header("Totals Odds")
 
 df_totals = load_totals()
 
 st.sidebar.header("Totals Filters")
-mlb_game_ids_selected = st.sidebar.multiselect(
-    "MLB Game ID", 
+mlb_game_ids_totals = st.sidebar.multiselect(
+    "MLB Game ID (Totals)", 
     sorted(df_totals["MLB Game ID"].dropna().unique()), 
     default=[]
 )
-away_teams_selected = st.sidebar.multiselect(
+away_teams_totals = st.sidebar.multiselect(
     "Away Team (Totals)", 
     sorted(df_totals["Away Team"].dropna().unique()), 
     default=[]
 )
-home_teams_selected = st.sidebar.multiselect(
+home_teams_totals = st.sidebar.multiselect(
     "Home Team (Totals)", 
     sorted(df_totals["Home Team"].dropna().unique()), 
     default=[]
 )
-bookmakers_selected = st.sidebar.multiselect(
-    "Bookmaker", 
+bookmakers_totals = st.sidebar.multiselect(
+    "Bookmaker (Totals)", 
     sorted(df_totals["Bookmaker"].dropna().unique()), 
     default=[]
 )
-price_range = numeric_slider(df_totals, "Price", "Price Range")
-roi_range = numeric_slider(df_totals, "Estimated ROI (%)", "ROI (%) Range")
+price_range_totals = numeric_slider(df_totals, "Price", "Price Range (Totals)")
+roi_range_totals = numeric_slider(df_totals, "Estimated ROI (%)", "ROI (%) Range (Totals)")
 
 filtered_totals = df_totals.copy()
-if mlb_game_ids_selected:
-    filtered_totals = filtered_totals[filtered_totals["MLB Game ID"].isin(mlb_game_ids_selected)]
-if away_teams_selected:
-    filtered_totals = filtered_totals[filtered_totals["Away Team"].isin(away_teams_selected)]
-if home_teams_selected:
-    filtered_totals = filtered_totals[filtered_totals["Home Team"].isin(home_teams_selected)]
-if bookmakers_selected:
-    filtered_totals = filtered_totals[filtered_totals["Bookmaker"].isin(bookmakers_selected)]
+if mlb_game_ids_totals:
+    filtered_totals = filtered_totals[filtered_totals["MLB Game ID"].isin(mlb_game_ids_totals)]
+if away_teams_totals:
+    filtered_totals = filtered_totals[filtered_totals["Away Team"].isin(away_teams_totals)]
+if home_teams_totals:
+    filtered_totals = filtered_totals[filtered_totals["Home Team"].isin(home_teams_totals)]
+if bookmakers_totals:
+    filtered_totals = filtered_totals[filtered_totals["Bookmaker"].isin(bookmakers_totals)]
 
 filtered_totals = filtered_totals[
-    filtered_totals["Price"].between(*price_range) &
-    filtered_totals["Estimated ROI (%)"].between(*roi_range)
+    filtered_totals["Price"].between(*price_range_totals) &
+    filtered_totals["Estimated ROI (%)"].between(*roi_range_totals)
 ]
 
 st.dataframe(filtered_totals, use_container_width=True)
