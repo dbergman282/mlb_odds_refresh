@@ -60,6 +60,7 @@ def load_dfs():
 st.header("DFS Projections")
 
 df_dfs = load_dfs()
+df_dfs.sort_values(by='DFS Mean',ascending=False,inplace=True)
 
 st.sidebar.header("DFS Filters")
 dfs_role = st.sidebar.multiselect(
