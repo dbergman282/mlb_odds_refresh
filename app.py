@@ -52,6 +52,49 @@ if home_team_selected:
 
 st.dataframe(filtered_game, use_container_width=True)
 
+@st.cache_data
+def load_dfs():
+    return pd.read_csv(st.secrets["DFS_URL"], index_col=False)
+
+# === SECTION 2: DFS Projections ===
+st.header("DFS Projections")
+
+df_dfs = load_dfs()
+
+st.sidebar.header("DFS Filters")
+dfs_role = st.sidebar.multiselect(
+    "Pitcher or Batter",
+    sorted(df_dfs["Pitcher of Batter"].dropna().unique()),
+    default=[]
+)
+dfs_teams = st.sidebar.multiselect(
+    "Team (DFS)",
+    sorted(df_dfs["Team"].dropna().unique()),
+    default=[]
+)
+dfs_lineup_confirmed = st.sidebar.multiselect(
+    "Lineup Confirmed",
+    sorted(df_dfs["Lineup Confirmed"].dropna().unique()),
+    default=[]
+)
+dfs_mean_range = numeric_slider(df_dfs, "DFS Mean", "DFS Mean Range")
+dfs_conf_range = numeric_slider(df_dfs, "Model Confidence", "Model Confidence Range")
+
+filtered_dfs = df_dfs.copy()
+if dfs_role:
+    filtered_dfs = filtered_dfs[filtered_dfs["Pitcher of Batter"].isin(dfs_role)]
+if dfs_teams:
+    filtered_dfs = filtered_dfs[filtered_dfs["Team"].isin(dfs_teams)]
+if dfs_lineup_confirmed:
+    filtered_dfs = filtered_dfs[filtered_dfs["Lineup Confirmed"].isin(dfs_lineup_confirmed)]
+
+filtered_dfs = filtered_dfs[
+    filtered_dfs["DFS Mean"].between(*dfs_mean_range) &
+    filtered_dfs["Model Confidence"].between(*dfs_conf_range)
+]
+
+st.dataframe(filtered_dfs, use_container_width=True)
+
 # === SECTION 2: Moneyline Odds ===
 st.header("Moneyline Odds")
 
