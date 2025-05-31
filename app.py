@@ -75,7 +75,7 @@ def load_dfs():
     return pd.read_csv(st.secrets["DFS_URL"], index_col=False)
 
 # === SECTION 2: DFS Projections ===
-st.header("DFS Projections")
+st.markdown("### <span class='custom-header'>DFS Projections</span>", unsafe_allow_html=True)
 
 df_dfs = load_dfs()
 df_dfs.sort_values(by='DFS Mean',ascending=False,inplace=True)
@@ -115,7 +115,8 @@ filtered_dfs = filtered_dfs[
 st.dataframe(filtered_dfs, use_container_width=True)
 
 # === SECTION 2: Moneyline Odds ===
-st.header("Moneyline Odds")
+st.markdown("### <span class='custom-header'>Moneyline Odds</span>", unsafe_allow_html=True)
+3st.header("Moneyline Odds")
 
 df_moneyline = load_moneyline()
 
@@ -152,7 +153,8 @@ filtered_moneyline = filtered_moneyline[
 st.dataframe(filtered_moneyline, use_container_width=True)
 
 # === SECTION 3: Totals Odds ===
-st.header("Totals Odds")
+#st.header("Totals Odds")
+st.markdown("### <span class='custom-header'>Totals Odds</span>", unsafe_allow_html=True)
 
 df_totals = load_totals()
 
@@ -203,7 +205,8 @@ def load_pitcher_props():
     return pd.read_csv(st.secrets["PITCHER_PROPS_URL"], index_col=False)
 
 # === SECTION 3: Pitcher Props ===
-st.header("Pitcher Props")
+st.markdown("### <span class='custom-header'>Pitcher Props</span>", unsafe_allow_html=True)
+#st.header("Pitcher Props")
 
 df_pitcher = load_pitcher_props()
 
@@ -245,7 +248,8 @@ def load_batter_props():
     return pd.read_csv(st.secrets["BATTER_PROPS_URL"], index_col=False)
 
 # === SECTION 4: Batter Props ===
-st.header("Batter Props")
+st.markdown("### <span class='custom-header'>Batter Props</span>", unsafe_allow_html=True)
+
 
 df_batter = load_batter_props()
 
