@@ -24,7 +24,7 @@ def numeric_slider(df, column, label):
 @st.cache_data
 def load_game_details():
     url = st.secrets["GAMES_URL"]
-    df = pd.read_csv(url,index_col=False)
+    df = pd.read_csv(url, index_col=False)
     return df
 
 @st.cache_data
@@ -32,7 +32,6 @@ def load_totals():
     url = st.secrets["TOTALS_URL"]
     df = pd.read_csv(url, index_col=False)
     return df
-
 
 # === SECTION 1: Game Odds ===
 df_game = load_game_details()
@@ -43,10 +42,6 @@ game_selected = st.sidebar.multiselect("Game Status", sorted(df_game["Game Statu
 away_team_selected = st.sidebar.multiselect("Away Team", sorted(df_game["Away Team"].dropna().unique()), default=[])
 home_team_selected = st.sidebar.multiselect("Home Team", sorted(df_game["Home Team"].dropna().unique()), default=[])
 
-# roi_range_game = numeric_slider(df_game, "ROI (%)", "ROI (%) Range (Game)")
-# kelly_range_game = numeric_slider(df_game, "kelly", "Kelly Range (Game)")
-# odds_range_game = numeric_slider(df_game, "americanOdds", "American Odds Range")
-
 filtered_game = df_game.copy()
 if game_selected:
     filtered_game = filtered_game[filtered_game["Game Status"].isin(game_selected)]
@@ -55,12 +50,7 @@ if away_team_selected:
 if home_team_selected:
     filtered_game = filtered_game[filtered_game["Home Team"].isin(home_team_selected)]
 
-# filtered_game = filtered_game[
-#     filtered_game["ROI (%)"].between(*roi_range_game) &
-#     filtered_game["kelly"].between(*kelly_range_game) &
-#     filtered_game["americanOdds"].between(*odds_range_game)
-
-
+st.dataframe(filtered_game, use_container_width=True)
 
 # === SECTION 2: Totals Odds ===
 st.header("Totals Odds")
@@ -81,6 +71,3 @@ filtered_totals = filtered_totals[
 ]
 
 st.dataframe(filtered_totals, use_container_width=True)
-# ]
-
-st.dataframe(filtered_game, use_container_width=True)
