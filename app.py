@@ -57,6 +57,20 @@ def load_moneyline():
 def load_totals():
     return pd.read_csv(st.secrets["TOTALS_URL"], index_col=False)
 
+time_url = st.secrets["CURRENT_TIME_URL"]
+
+# Fetch the time from the URL
+try:
+    response = requests.get(time_url)
+    response.raise_for_status()  # Raise error for bad responses
+    current_time = response.text.strip()
+except Exception as e:
+    current_time = f"Error fetching time: {e}"
+
+# Display in the app
+st.title("Last Simulation Start")
+st.write(f"Last updated time: **{current_time}**")
+
 # === SECTION 1: Game Summary ===
 df_game = load_game_details()
 st.markdown("### <span class='custom-header'>All Games</span>", unsafe_allow_html=True)
