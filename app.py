@@ -13,7 +13,7 @@ st.markdown(
     """
     <style>
     .custom-header {
-        color: #00FFC2;
+        color: #FF2EB6;
         font-size: 32px;
         font-weight: 600;
         margin-top: 2em;
