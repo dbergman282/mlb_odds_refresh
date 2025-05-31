@@ -141,6 +141,7 @@ st.markdown("### <span class='custom-header'>Moneyline Odds</span>", unsafe_allo
 #st.header("Moneyline Odds")
 
 df_moneyline = load_moneyline()
+df_moneyline.sort_values(by='Estimated ROI (%)',ascending=False,inplace=True)
 
 st.sidebar.header("Moneyline Filters")
 mlb_game_ids_moneyline = st.sidebar.multiselect(
@@ -179,6 +180,7 @@ st.dataframe(filtered_moneyline, use_container_width=True)
 st.markdown("### <span class='custom-header'>Totals Odds</span>", unsafe_allow_html=True)
 
 df_totals = load_totals()
+df_totals.sort_values(by='Estimated ROI (%)',ascending=False,inplace=True)
 
 st.sidebar.header("Totals Filters")
 mlb_game_ids_totals = st.sidebar.multiselect(
@@ -231,6 +233,7 @@ st.markdown("### <span class='custom-header'>Pitcher Props</span>", unsafe_allow
 #st.header("Pitcher Props")
 
 df_pitcher = load_pitcher_props()
+df_pitcher.sort_values(by='Estimated ROI (%)',ascending=False,inplace=True)
 
 st.sidebar.header("Pitcher Prop Filters")
 pitcher_names = st.sidebar.multiselect("Pitcher Name", sorted(df_pitcher["Normalized Name"].dropna().unique()), default=[])
@@ -274,6 +277,7 @@ st.markdown("### <span class='custom-header'>Batter Props</span>", unsafe_allow_
 
 
 df_batter = load_batter_props()
+df_batter.sort_values(by='Estimated ROI (%)',ascending=False,inplace=True)
 
 st.sidebar.header("Batter Prop Filters")
 batter_names = st.sidebar.multiselect("Batter Name", sorted(df_batter["Normalized Name"].dropna().unique()), default=[])
