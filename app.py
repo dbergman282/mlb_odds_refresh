@@ -1,7 +1,11 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="MLB Odds Dashboard", layout="wide")
+st.set_page_config(
+    page_title="MLB Odds Dashboard",
+    page_icon="⚾",  # or use a URL to a favicon
+    layout="wide"
+)
 
 # === Inject Custom CSS for Section Headers ===
 st.markdown(
