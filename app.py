@@ -27,6 +27,13 @@ def load_game_details():
     df = pd.read_csv(url,index_col=False)
     return df
 
+@st.cache_data
+def load_totals():
+    url = st.secrets["TOTALS_URL"]
+    df = pd.read_csv(url, index_col=False)
+    return df
+
+
 # === SECTION 1: Game Odds ===
 df_game = load_game_details()
 st.header("All Games")
@@ -52,6 +59,28 @@ if home_team_selected:
 #     filtered_game["ROI (%)"].between(*roi_range_game) &
 #     filtered_game["kelly"].between(*kelly_range_game) &
 #     filtered_game["americanOdds"].between(*odds_range_game)
+
+
+
+# === SECTION 2: Totals Odds ===
+st.header("Totals Odds")
+
+df_totals = load_totals()
+
+st.sidebar.header("Totals Filters")
+bookmakers_selected = st.sidebar.multiselect("Bookmaker", sorted(df_totals["Bookmaker"].dropna().unique()), default=[])
+price_range = numeric_slider(df_totals, "Price", "Price Range")
+roi_range = numeric_slider(df_totals, "Estimated ROI (%)", "ROI (%) Range")
+
+filtered_totals = df_totals.copy()
+if bookmakers_selected:
+    filtered_totals = filtered_totals[filtered_totals["Bookmaker"].isin(bookmakers_selected)]
+filtered_totals = filtered_totals[
+    filtered_totals["Price"].between(*price_range) &
+    filtered_totals["Estimated ROI (%)"].between(*roi_range)
+]
+
+st.dataframe(filtered_totals, use_container_width=True)
 # ]
 
 st.dataframe(filtered_game, use_container_width=True)
