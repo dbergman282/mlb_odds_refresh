@@ -178,3 +178,89 @@ filtered_totals = filtered_totals[
 ]
 
 st.dataframe(filtered_totals, use_container_width=True)
+
+
+@st.cache_data
+def load_pitcher_props():
+    return pd.read_csv(st.secrets["PITCHER_PROPS_URL"], index_col=False)
+
+# === SECTION 3: Pitcher Props ===
+st.header("Pitcher Props")
+
+df_pitcher = load_pitcher_props()
+
+st.sidebar.header("Pitcher Prop Filters")
+pitcher_names = st.sidebar.multiselect("Pitcher Name", sorted(df_pitcher["Normalized Name"].dropna().unique()), default=[])
+pitcher_teams = st.sidebar.multiselect("Team (Pitchers)", sorted(df_pitcher["Team"].dropna().unique()), default=[])
+pitcher_books = st.sidebar.multiselect("Bookmaker (Pitchers)", sorted(df_pitcher["Bookmaker"].dropna().unique()), default=[])
+pitcher_markets = st.sidebar.multiselect("Market (Pitchers)", sorted(df_pitcher["Market"].dropna().unique()), default=[])
+pitcher_lineup = st.sidebar.multiselect("Lineup Confirmed (Pitchers)", sorted(df_pitcher["Lineup Confirmed"].dropna().unique()), default=[])
+
+pitcher_point_range = numeric_slider(df_pitcher, "Point", "Point Range (Pitchers)")
+pitcher_price_range = numeric_slider(df_pitcher, "Price", "Price Range (Pitchers)")
+pitcher_roi_range = numeric_slider(df_pitcher, "Estimated ROI (%)", "ROI (%) Range (Pitchers)")
+pitcher_conf_range = numeric_slider(df_pitcher, "Model Confidence", "Model Confidence Range (Pitchers)")
+
+filtered_pitcher = df_pitcher.copy()
+if pitcher_names:
+    filtered_pitcher = filtered_pitcher[filtered_pitcher["Normalized Name"].isin(pitcher_names)]
+if pitcher_teams:
+    filtered_pitcher = filtered_pitcher[filtered_pitcher["Team"].isin(pitcher_teams)]
+if pitcher_books:
+    filtered_pitcher = filtered_pitcher[filtered_pitcher["Bookmaker"].isin(pitcher_books)]
+if pitcher_markets:
+    filtered_pitcher = filtered_pitcher[filtered_pitcher["Market"].isin(pitcher_markets)]
+if pitcher_lineup:
+    filtered_pitcher = filtered_pitcher[filtered_pitcher["Lineup Confirmed"].isin(pitcher_lineup)]
+
+filtered_pitcher = filtered_pitcher[
+    filtered_pitcher["Point"].between(*pitcher_point_range) &
+    filtered_pitcher["Price"].between(*pitcher_price_range) &
+    filtered_pitcher["Estimated ROI (%)"].between(*pitcher_roi_range) &
+    filtered_pitcher["Model Confidence"].between(*pitcher_conf_range)
+]
+
+st.dataframe(filtered_pitcher, use_container_width=True)
+
+@st.cache_data
+def load_batter_props():
+    return pd.read_csv(st.secrets["BATTER_PROPS_URL"], index_col=False)
+
+# === SECTION 4: Batter Props ===
+st.header("Batter Props")
+
+df_batter = load_batter_props()
+
+st.sidebar.header("Batter Prop Filters")
+batter_names = st.sidebar.multiselect("Batter Name", sorted(df_batter["Normalized Name"].dropna().unique()), default=[])
+batter_teams = st.sidebar.multiselect("Team (Batters)", sorted(df_batter["Team"].dropna().unique()), default=[])
+batter_books = st.sidebar.multiselect("Bookmaker (Batters)", sorted(df_batter["Bookmaker"].dropna().unique()), default=[])
+batter_markets = st.sidebar.multiselect("Market (Batters)", sorted(df_batter["Market"].dropna().unique()), default=[])
+batter_lineup = st.sidebar.multiselect("Lineup Confirmed (Batters)", sorted(df_batter["Lineup Confirmed"].dropna().unique()), default=[])
+
+batter_point_range = numeric_slider(df_batter, "Point", "Point Range (Batters)")
+batter_price_range = numeric_slider(df_batter, "Price", "Price Range (Batters)")
+batter_roi_range = numeric_slider(df_batter, "Estimated ROI (%)", "ROI (%) Range (Batters)")
+batter_conf_range = numeric_slider(df_batter, "Model Confidence", "Model Confidence Range (Batters)")
+
+filtered_batter = df_batter.copy()
+if batter_names:
+    filtered_batter = filtered_batter[filtered_batter["Normalized Name"].isin(batter_names)]
+if batter_teams:
+    filtered_batter = filtered_batter[filtered_batter["Team"].isin(batter_teams)]
+if batter_books:
+    filtered_batter = filtered_batter[filtered_batter["Bookmaker"].isin(batter_books)]
+if batter_markets:
+    filtered_batter = filtered_batter[filtered_batter["Market"].isin(batter_markets)]
+if batter_lineup:
+    filtered_batter = filtered_batter[filtered_batter["Lineup Confirmed"].isin(batter_lineup)]
+
+filtered_batter = filtered_batter[
+    filtered_batter["Point"].between(*batter_point_range) &
+    filtered_batter["Price"].between(*batter_price_range) &
+    filtered_batter["Estimated ROI (%)"].between(*batter_roi_range) &
+    filtered_batter["Model Confidence"].between(*batter_conf_range)
+]
+
+st.dataframe(filtered_batter, use_container_width=True)
+
