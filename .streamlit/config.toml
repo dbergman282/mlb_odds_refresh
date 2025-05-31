@@ -1,7 +1,7 @@
 [theme]
 base = "dark"
-primaryColor = "#FF2EB6"  # vibrant pink
-backgroundColor = "#121317"  # slightly lighter than black
-secondaryBackgroundColor = "#1C1E23"  # medium dark gray
+primaryColor = "#3B82F6"
+backgroundColor = "#121317"
+secondaryBackgroundColor = "#1C1E23"
 textColor = "#FFFFFF"
 font = "sans serif"
