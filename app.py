@@ -326,7 +326,7 @@ filtered_dfs = filtered_dfs[
 ]
 
 with st.expander("🎯 Expand to View DFS Projections for Every Starting Player", expanded=False):
-    st.dataframe(filtered_dfs, use_container_width=True)
+    st.dataframe(filtered_dfs, use_container_width=True,height=200)
 
 # === SECTION 2: Moneyline Odds ===
 st.markdown("### <span class='custom-header'>Moneyline Odds</span>", unsafe_allow_html=True)
@@ -417,7 +417,7 @@ filtered_totals = filtered_totals[
     filtered_totals["Estimated ROI (%)"].between(*roi_range_totals)
 ]
 with st.expander("🔢 Expand to View Totals", expanded=False):
-    st.dataframe(filtered_totals, use_container_width=True)
+    st.dataframe(filtered_totals, use_container_width=True,height=200)
     draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI",list(filtered_totals.columns))
 
 
@@ -464,7 +464,7 @@ filtered_pitcher = filtered_pitcher[
     filtered_pitcher["Model Confidence"].between(*pitcher_conf_range)
 ]
 with st.expander("🤾‍♂️⚾ Expand to View Pitcher Props", expanded=False):
-    st.dataframe(filtered_pitcher, use_container_width=True)
+    st.dataframe(filtered_pitcher, use_container_width=True,height=200)
     draw_top_bets_plot_arguments(filtered_pitcher,"🤾‍♂️⚾ Pitcher Props: Price vs ROI",list(filtered_pitcher.columns))
 
 @st.cache_data
@@ -510,7 +510,7 @@ filtered_batter = filtered_batter[
 ]
 
 with st.expander("🥎🔨 Expand to View Batter Props", expanded=False):
-    st.dataframe(filtered_batter, use_container_width=True)
+    st.dataframe(filtered_batter, use_container_width=True,height=200)
     
     draw_top_bets_plot_arguments(filtered_batter,"🥎🔨 Batter Props: Price vs ROI",list(filtered_batter.columns))
 
