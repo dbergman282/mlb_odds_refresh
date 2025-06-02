@@ -411,14 +411,9 @@ filtered_totals = filtered_totals[
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
     #draw_top_bets_plot(filtered_totals,"🔢 Totals: Price vs ROI")
-    if 'just_loaded' not in st.session_state:
-        st.session_state.just_loaded = True
+
     draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI",['Bookmaker','Point'])
 
-    if st.session_state.just_loaded:
-        # Dummy filter that re-triggers layout
-        filtered_totals = filtered_totals.copy()
-        st.session_state.just_loaded = False
 
 
 @st.cache_data
