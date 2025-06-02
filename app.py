@@ -10,15 +10,22 @@ st.set_page_config(
     layout="wide"
 )
 def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
-    import plotly.express as px
-    import streamlit.components.v1 as components
 
-    # Default hover columns
+    def draw_top_bets_plot_arguments(df, title="", extra_hover_cols=None):
+    if extra_hover_cols is None:
+        extra_hover_cols = []
+
     base_hover = ['Price', 'Estimated ROI (%)']
-    if hover_columns:
-        hover_cols = base_hover + hover_columns
-    else:
-        hover_cols = base_hover
+    seen = set(base_hover)
+    hover_cols = base_hover + [col for col in extra_hover_cols if col not in seen and not seen.add(col)]
+
+
+    # # Default hover columns
+    # base_hover = ['Price', 'Estimated ROI (%)']
+    # if hover_columns:
+    #     hover_cols = base_hover + hover_columns
+    # else:
+    #     hover_cols = base_hover
 
     # Sort and mark Pareto-optimal
     df_sorted = df.sort_values(by='Estimated ROI (%)', ascending=False).copy()
