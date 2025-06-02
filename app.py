@@ -367,7 +367,7 @@ filtered_moneyline = filtered_moneyline[
 with st.expander("💸 Expand to View Moneyline Bets", expanded=False):
     st.dataframe(filtered_moneyline, use_container_width=True)
 
-    draw_top_bets_plot_arguments(filtered_totals,"💸 Moneyline: Price vs ROI",list(filtered_moneyline.columns))
+    draw_top_bets_plot_arguments(filtered_moneyline,"💸 Moneyline: Price vs ROI",list(filtered_moneyline.columns))
 
 
 
