@@ -12,20 +12,20 @@ st.set_page_config(
 def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
 
 
-    if extra_hover_cols is None:
-        extra_hover_cols = []
+    # if extra_hover_cols is None:
+    #     extra_hover_cols = []
 
-    base_hover = ['Price', 'Estimated ROI (%)']
-    seen = set(base_hover)
-    hover_cols = base_hover + [col for col in extra_hover_cols if col not in seen and not seen.add(col)]
-
-
-    # # Default hover columns
     # base_hover = ['Price', 'Estimated ROI (%)']
-    # if hover_columns:
-    #     hover_cols = base_hover + hover_columns
-    # else:
-    #     hover_cols = base_hover
+    # seen = set(base_hover)
+    # hover_cols = base_hover + [col for col in extra_hover_cols if col not in seen and not seen.add(col)]
+
+
+    # Default hover columns
+    base_hover = ['Price', 'Estimated ROI (%)']
+    if hover_columns:
+        hover_cols = base_hover + hover_columns
+    else:
+        hover_cols = base_hover
 
     # Sort and mark Pareto-optimal
     df_sorted = df.sort_values(by='Estimated ROI (%)', ascending=False).copy()
@@ -427,7 +427,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
     #st.write("Column names before plotting:", filtered_totals.columns.tolist())
     #st.write("Are any duplicated?", filtered_totals.columns.duplicated().any())
     #filtered_totals = filtered_totals.loc[:, ~filtered_totals.columns.duplicated()].copy()
-    #draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI")
+    draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI")
 
 
 
