@@ -536,7 +536,9 @@ filtered_totals = filtered_totals[
 ]
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True,height=200)
-    draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI",list(filtered_totals.columns))
+    #draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI",list(filtered_totals.columns))
+    draw_top_bets_plot_arguments_ets(filtered_totals,"🔢 Totals: Price vs ETS Score",list(filtered_totals.columns))
+
 
 
 
