@@ -10,6 +10,112 @@ st.set_page_config(
     layout="wide"
 )
 
+def draw_top_bets_plot_arguments_ets(df, title="", hover_columns=None):
+
+    # Default hover columns
+    base_hover = ['Price', 'ETS Score']
+    if hover_columns:
+        hover_cols = base_hover + hover_columns
+    else:
+        hover_cols = base_hover
+
+    hover_cols = list(set(hover_cols))
+
+    # Sort and mark Pareto-optimal
+    df_sorted = df.sort_values(by='ETS Score', ascending=False).copy()
+    df_sorted['is_pareto'] = False
+    positive_roi = df_sorted[df_sorted['ETS Score'] > 0].sort_values(by='ETS Score', ascending=False)
+    pareto_indices, max_price = [], None
+    for idx, row in positive_roi.iterrows():
+        if max_price is None or row['Price'] >= max_price:
+            pareto_indices.append(idx)
+            max_price = row['Price']
+    df_sorted.loc[pareto_indices, 'is_pareto'] = True
+
+    # Assign colors
+    def assign_color(row):
+        if row['ETS Score'] <= 0:
+            return '#5A5A5A'
+        elif row['is_pareto']:
+            return '#FF6F91'
+        else:
+            return '#00B8D9'
+    df_sorted['marker_color'] = df_sorted.apply(assign_color, axis=1)
+
+    # Base scatter plot
+    fig = px.scatter(
+        df_sorted,
+        x='Price',
+        y='ETS Score',
+        hover_data=hover_cols,
+        title=title,
+    )
+    fig.update_traces(marker=dict(size=8), marker_color=df_sorted['marker_color'])
+    fig.add_scatter(
+        x=[None],
+        y=[None],
+        mode='markers',
+        name=' ',
+        marker=dict(opacity=0),
+        showlegend=True
+    )
+
+    # Add dashed Pareto line with custom hover
+    pareto_points = df_sorted[df_sorted['is_pareto']].sort_values(by='Price')
+    if len(pareto_points) >= 2:
+        fig.add_scatter(
+            x=pareto_points['Price'],
+            y=pareto_points['ETS Score'],
+            mode='lines+markers',
+            name='Top Bets',
+            line=dict(color='#FF6F91', width=2, dash='dash'),
+            marker=dict(color='#FF6F91', size=8),
+            customdata=pareto_points[hover_cols],
+            hovertemplate = '<br>'.join([f'{col}: %{{customdata[{i}]}}' for i, col in enumerate(hover_cols)]) + '<extra></extra>'
+        )
+
+    # Layout and interactivity lock
+    fig.update_layout(
+        width=600,
+        height=400,
+        plot_bgcolor='#121317',
+        paper_bgcolor='#121317',
+        font=dict(color='#FFFFFF'),
+        title_font=dict(size=20, color='#00B8D9'),
+        xaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
+        yaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
+        dragmode=False,
+        hovermode='closest',
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="center",
+            x=0.5,
+            font=dict(
+                size=14,           # or whatever matches your theme
+                color='#FFFFFF',
+                family='sans-serif'
+            )
+        ),
+        margin=dict(l=40, r=40, t=110, b=40)
+    )
+
+    # Disable zoom/pan/select, allow hover
+    html_str = fig.to_html(full_html=False, include_plotlyjs='cdn', config={
+        'displayModeBar': False,
+        'staticPlot': False,
+        'scrollZoom': False,
+        'editable': False,
+        'doubleClick': False,
+        'displaylogo': False
+    })
+    components.html(
+        f"<div style='display: flex; justify-content: center; align-items: center;'>{html_str}</div>",
+        height=450,
+    )
+
+
 def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
 
     # Default hover columns
@@ -381,7 +487,7 @@ with st.expander("💸 Expand to View Moneyline Bets", expanded=False):
 st.markdown("### <span class='custom-header'>Totals Odds</span>", unsafe_allow_html=True)
 
 df_totals = load_totals()
-df_totals['Kelly'] = (df_totals['Estimated ROI (%)']/100.0)/(df_totals['Price']-1)
+
 # df_totals['Kelly'] = np.where(
 #     df_totals['Estimated ROI (%)'] > 0,
 #     (df_totals['Estimated ROI (%)']/100.0)/(df_totals['Price']-1),
@@ -443,7 +549,9 @@ st.markdown("### <span class='custom-header'>Pitcher Props</span>", unsafe_allow
 #st.header("Pitcher Props")
 
 df_pitcher = load_pitcher_props()
-df_pitcher.sort_values(by='Estimated ROI (%)',ascending=False,inplace=True)
+df_pitcher['Kelly'] = (df_pitcher['Estimated ROI (%)']/100.0)/(df_pitcher['Price']-1)
+df_pitcher['ETS Score'] = df_pitcher['Kelly']*df_pitcher['Model Confidence']
+df_pitcher.sort_values(by='ETS Score',ascending=False,inplace=True)
 
 st.sidebar.header("Pitcher Prop Filters")
 pitcher_names = st.sidebar.multiselect("Pitcher Name", sorted(df_pitcher["Normalized Name"].dropna().unique()), default=[])
@@ -477,7 +585,8 @@ filtered_pitcher = filtered_pitcher[
 ]
 with st.expander("🤾‍♂️⚾ Expand to View Pitcher Props", expanded=False):
     st.dataframe(filtered_pitcher, use_container_width=True,height=200)
-    draw_top_bets_plot_arguments(filtered_pitcher,"🤾‍♂️⚾ Pitcher Props: Price vs ROI",list(filtered_pitcher.columns))
+    #draw_top_bets_plot_arguments(filtered_pitcher,"🤾‍♂️⚾ Pitcher Props: Price vs ROI",list(filtered_pitcher.columns))
+    draw_top_bets_plot_arguments_ets(filtered_pitcher,"🤾‍♂️⚾ Pitcher Props: Price vs ETS Score",list(filtered_pitcher.columns))
 
 @st.cache_data
 def load_batter_props():
