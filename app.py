@@ -11,21 +11,14 @@ st.set_page_config(
 )
 def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
 
-
-    # if extra_hover_cols is None:
-    #     extra_hover_cols = []
-
-    # base_hover = ['Price', 'Estimated ROI (%)']
-    # seen = set(base_hover)
-    # hover_cols = base_hover + [col for col in extra_hover_cols if col not in seen and not seen.add(col)]
-
-
     # Default hover columns
     base_hover = ['Price', 'Estimated ROI (%)']
     if hover_columns:
         hover_cols = base_hover + hover_columns
     else:
         hover_cols = base_hover
+
+    hover_cols = list(set(hover_cols))
 
     # Sort and mark Pareto-optimal
     df_sorted = df.sort_values(by='Estimated ROI (%)', ascending=False).copy()
