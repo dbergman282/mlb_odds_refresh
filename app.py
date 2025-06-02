@@ -99,7 +99,7 @@ def draw_top_bets_plot_arguments_ets(df, title="", hover_columns=None):
                 family='sans-serif'
             )
         ),
-        margin=dict(l=40, r=40, t=110, b=40)
+        margin=dict(l=100, r=40, t=110, b=40)
     )
 
     # Disable zoom/pan/select, allow hover
@@ -480,7 +480,8 @@ filtered_moneyline = filtered_moneyline[
 with st.expander("💸 Expand to View Moneyline Bets", expanded=False):
     st.dataframe(filtered_moneyline, use_container_width=True,height=200)
 
-    draw_top_bets_plot_arguments(filtered_moneyline,"💸 Moneyline: Price vs ROI",list(filtered_moneyline.columns))
+    #draw_top_bets_plot_arguments(filtered_moneyline,"💸 Moneyline: Price vs ROI",list(filtered_moneyline.columns))
+    draw_top_bets_plot_arguments_ets(filtered_totals,"💸 Moneyline: Price vs ETS Score",list(filtered_totals.columns))
 
 
 
