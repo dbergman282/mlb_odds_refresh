@@ -301,7 +301,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
 
     # Style layout
     fig.update_layout(
-        width=600,
+        width=900,
         height=600,
         plot_bgcolor='#121317',
         paper_bgcolor='#121317',
