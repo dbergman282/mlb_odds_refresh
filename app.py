@@ -427,7 +427,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
     #st.write("Column names before plotting:", filtered_totals.columns.tolist())
     #st.write("Are any duplicated?", filtered_totals.columns.duplicated().any())
     #filtered_totals = filtered_totals.loc[:, ~filtered_totals.columns.duplicated()].copy()
-    draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI")
+    draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI",['Bookmaker'])
 
 
 
