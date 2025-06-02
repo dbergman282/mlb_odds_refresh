@@ -10,6 +10,78 @@ st.set_page_config(
     layout="wide"
 )
 
+import plotly.express as px
+import streamlit.components.v1 as components
+
+def draw_top_bets_plot(df):
+    # Sort by ROI descending
+    df_sorted = df.sort_values(by='Estimated ROI (%)', ascending=False).copy()
+
+    # Mark Pareto-optimal rows
+    df_sorted['is_pareto'] = False
+    positive_roi = df_sorted[df_sorted['Estimated ROI (%)'] > 0].sort_values(by='Estimated ROI (%)', ascending=False)
+    
+    pareto_indices = []
+    max_price = None
+    for idx, row in positive_roi.iterrows():
+        price = row['Price']
+        if max_price is None or price >= max_price:
+            pareto_indices.append(idx)
+            max_price = price
+    df_sorted.loc[pareto_indices, 'is_pareto'] = True
+
+    # Assign marker colors
+    def assign_color(row):
+        if row['Estimated ROI (%)'] < 0:
+            return '#5A5A5A'
+        elif row['is_pareto']:
+            return '#FF6F91'
+        else:
+            return '#00B8D9'
+    df_sorted['marker_color'] = df_sorted.apply(assign_color, axis=1)
+
+    # Create scatter plot
+    fig = px.scatter(
+        df_sorted,
+        x='Price',
+        y='Estimated ROI (%)',
+        hover_data=df_sorted.columns,
+    )
+    fig.update_traces(marker=dict(size=8), marker_color=df_sorted['marker_color'])
+
+    # Add dashed "Top Bets" line
+    pareto_points = df_sorted[df_sorted['is_pareto']].sort_values(by='Price')
+    if len(pareto_points) >= 2:
+        fig.add_scatter(
+            x=pareto_points['Price'],
+            y=pareto_points['Estimated ROI (%)'],
+            mode='lines+markers',
+            name='Top Bets',
+            line=dict(color='#FF6F91', width=2, dash='dash'),
+            marker=dict(color='#FF6F91', size=8),
+        )
+
+    # Style plot
+    fig.update_layout(
+        width=900,
+        height=600,
+        plot_bgcolor='#121317',
+        paper_bgcolor='#121317',
+        font=dict(color='#FFFFFF'),
+        xaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
+        yaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
+        margin=dict(l=40, r=40, t=30, b=40),
+        showlegend=False,
+    )
+
+    # Display centered
+    html_str = fig.to_html(full_html=False, include_plotlyjs='cdn')
+    components.html(
+        f"<div style='display: flex; justify-content: center; align-items: center;'>{html_str}</div>",
+        height=650,
+    )
+
+
 # === Inject Custom CSS for Section Headers ===
 st.markdown(
     """
@@ -229,100 +301,7 @@ filtered_totals = filtered_totals[
 ]
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
-
-    # Sort by ROI descending
-
-    df_sorted = filtered_totals.sort_values(by='Estimated ROI (%)', ascending=False).copy()
-
-    # Identify Pareto-optimal points
-    # pareto_mask = []
-    # max_price = None
-    # for _, row in df_sorted.iterrows():
-    #     price = row['Price']
-    #     if max_price is None or price >= max_price:
-    #         pareto_mask.append(True)
-    #         max_price = price
-    #     else:
-    #         pareto_mask.append(False)
-    # df_sorted['is_pareto'] = pareto_mask
-
-    # Initialize all as not Pareto
-    df_sorted['is_pareto'] = False
-    
-    # Filter only rows with positive ROI
-    positive_roi = df_sorted[df_sorted['Estimated ROI (%)'] > 0]
-    positive_roi = positive_roi.sort_values(by='Estimated ROI (%)', ascending=False)
-    
-    # Track Pareto-optimal rows
-    pareto_indices = []
-    max_price = None
-    for idx, row in positive_roi.iterrows():
-        price = row['Price']
-        if max_price is None or price >= max_price:
-            pareto_indices.append(idx)
-            max_price = price
-    
-    # Mark those in original DataFrame
-    df_sorted.loc[pareto_indices, 'is_pareto'] = True
-
-
-    # Assign marker color
-    def assign_color(row):
-        if row['Estimated ROI (%)'] < 0:
-            return '#5A5A5A'      # Grey for negative ROI
-        elif row['is_pareto']:
-            return '#FF6F91'      # Coral pink for Pareto-optimal
-        else:
-            return '#00B8D9'      # Theme blue for others
-    df_sorted['marker_color'] = df_sorted.apply(assign_color, axis=1)
-
-    # Build base scatter plot
-    fig = px.scatter(
-        df_sorted,
-        x='Price',
-        y='Estimated ROI (%)',
-        hover_data=df_sorted.columns,
-        title="🔢 Totals: Price vs ROI",
-    )
-    fig.update_traces(marker=dict(size=8), marker_color=df_sorted['marker_color'])
-
-    # Add Pareto frontier line if more than 1 point
-    pareto_points = df_sorted[df_sorted['is_pareto']].sort_values(by='Price')
-    if len(pareto_points) >= 2:
-        fig.add_scatter(
-            x=pareto_points['Price'],
-            y=pareto_points['Estimated ROI (%)'],
-            mode='lines+markers',
-            name='Top Bets',
-            #line=dict(color='#FF6F91', width=2),
-            line=dict(color='#FF6F91', width=2, dash='dash'),
-            marker=dict(color='#FF6F91', size=8),
-        )
-
-    # Style layout
-    fig.update_layout(
-        width=900,
-        height=600,
-        plot_bgcolor='#121317',
-        paper_bgcolor='#121317',
-        font=dict(color='#FFFFFF'),
-        title_font=dict(size=20, color='#00B8D9'),
-        xaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
-        yaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
-        margin=dict(l=40, r=40, t=60, b=40),
-    )
-
-    # Centered display
-    html_str = fig.to_html(full_html=False, include_plotlyjs='cdn')
-    components.html(
-        f"""
-        <div style="display: flex; justify-content: center; align-items: center;">
-            {html_str}
-        </div>
-        """,
-        height=650,
-    )
-
+    draw_top_bets_plot(filtered_totals)
 
 
 @st.cache_data
