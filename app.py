@@ -193,7 +193,7 @@ def draw_top_bets_plot(df, title=""):
 
     components.html(
         f"<div style='display: flex; justify-content: center; align-items: center;'>{html_str}</div>",
-        height=650,
+        height=700,
     )
 
 
@@ -381,6 +381,13 @@ with st.expander("💸 Expand to View Moneyline Bets", expanded=False):
 st.markdown("### <span class='custom-header'>Totals Odds</span>", unsafe_allow_html=True)
 
 df_totals = load_totals()
+df_totals['Kelly'] = (df_totals['Estimated ROI (%)']/100.0)/(df_totals['Price']-1)
+# df_totals['Kelly'] = np.where(
+#     df_totals['Estimated ROI (%)'] > 0,
+#     (df_totals['Estimated ROI (%)']/100.0)/(df_totals['Price']-1),
+#     0
+# )
+    
 df_totals.sort_values(by='Estimated ROI (%)',ascending=False,inplace=True)
 
 st.sidebar.header("Totals Filters")
