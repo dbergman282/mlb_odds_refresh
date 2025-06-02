@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import requests
+import plotly.express as px
 
 st.set_page_config(
     page_title="MLB Odds Dashboard",
@@ -227,6 +228,26 @@ filtered_totals = filtered_totals[
 ]
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
+    # Plot
+    fig = px.scatter(
+        filtered_totals,
+        x='Price',
+        y='Estimated ROI (%)',
+        hover_data=filtered_totals.columns,
+        title="🔢 Totals: Price vs ROI",
+    )
+    
+    # Theme-matching style
+    fig.update_layout(
+        plot_bgcolor='#121317',           # backgroundColor
+        paper_bgcolor='#121317',
+        font=dict(color='#FFFFFF'),       # textColor
+        title_font=dict(size=20, color='#00B8D9'),  # primaryColor
+        xaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
+        yaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
 
 
 @st.cache_data
