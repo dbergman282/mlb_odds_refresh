@@ -87,10 +87,15 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
         hovermode='closest',
         legend=dict(
             orientation="h",
-            yanchor="top",
-            y=1.02,           # inside the plot area at the top
+            yanchor="bottom",
+            y=1.02,
             xanchor="center",
-            x=0.5
+            x=0.5,
+            font=dict(
+                size=14,           # or whatever matches your theme
+                color='#FFFFFF',
+                family='sans-serif'
+            )
         ),
         margin=dict(l=40, r=40, t=110, b=40)
     )
