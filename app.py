@@ -241,7 +241,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
     
     # Update theme + fix marker color
     fig.update_layout(
-        width=600,
+        width=800,
         height=600,
         plot_bgcolor='#121317',
         paper_bgcolor='#121317',
@@ -261,7 +261,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
             {html_str}
         </div>
         """,
-        height=650,
+        height=750,
     )
 
 @st.cache_data
