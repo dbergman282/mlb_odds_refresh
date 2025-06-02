@@ -229,8 +229,8 @@ filtered_totals = filtered_totals[
 ]
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
-    
-    # Create plot
+        
+    # Create scatter plot
     fig = px.scatter(
         filtered_totals,
         x='Price',
@@ -239,7 +239,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         title="🔢 Totals: Price vs ROI",
     )
     
-    # Style
+    # Update theme + fix marker color
     fig.update_layout(
         width=600,
         height=600,
@@ -251,8 +251,9 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         yaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
         margin=dict(l=40, r=40, t=60, b=40),
     )
+    fig.update_traces(marker=dict(color='#00B8D9', size=8))
     
-    # Render as HTML for full centering control
+    # Render HTML
     html_str = fig.to_html(full_html=False, include_plotlyjs='cdn')
     components.html(
         f"""
