@@ -515,18 +515,3 @@ with st.expander("🥎🔨 Expand to View Batter Props", expanded=False):
     draw_top_bets_plot_arguments(filtered_batter,"🥎🔨 Batter Props: Price vs ROI",list(filtered_batter.columns))
 
 
-if "roi_totals_touched" not in st.session_state:
-    # Temporarily set to ROI < 0
-    st.session_state["ROI (%) Range (Totals)"] = (
-        float(df_totals["Estimated ROI (%)"].min()),
-        0.0
-    )
-
-    # Immediately set it back to full range
-    st.session_state["ROI (%) Range (Totals)"] = (
-        float(df_totals["Estimated ROI (%)"].min()),
-        float(df_totals["Estimated ROI (%)"].max())
-    )
-
-    # Mark as touched
-    st.session_state["roi_totals_touched"] = True
