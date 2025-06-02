@@ -11,7 +11,7 @@ st.set_page_config(
 )
 def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
 
-    def draw_top_bets_plot_arguments(df, title="", extra_hover_cols=None):
+
     if extra_hover_cols is None:
         extra_hover_cols = []
 
