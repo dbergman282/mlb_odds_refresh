@@ -229,11 +229,11 @@ filtered_totals = filtered_totals[
 ]
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
-    
+
     # Sort by ROI descending
     df_sorted = filtered_totals.sort_values(by='Estimated ROI (%)', ascending=False).copy()
-    
-    # Identify Pareto-optimal points (more robust logic)
+
+    # Identify Pareto-optimal points
     pareto_mask = []
     max_price = None
     for _, row in df_sorted.iterrows():
@@ -244,7 +244,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         else:
             pareto_mask.append(False)
     df_sorted['is_pareto'] = pareto_mask
-    
+
     # Assign marker color
     def assign_color(row):
         if row['Estimated ROI (%)'] < 0:
@@ -253,10 +253,9 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
             return '#FF6F91'      # Coral pink for Pareto-optimal
         else:
             return '#00B8D9'      # Theme blue for others
-    
     df_sorted['marker_color'] = df_sorted.apply(assign_color, axis=1)
-    
-    # --- BUILD PLOT ---
+
+    # Build base scatter plot
     fig = px.scatter(
         df_sorted,
         x='Price',
@@ -265,6 +264,20 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         title="🔢 Totals: Price vs ROI",
     )
     fig.update_traces(marker=dict(size=8), marker_color=df_sorted['marker_color'])
+
+    # Add Pareto frontier line if more than 1 point
+    pareto_points = df_sorted[df_sorted['is_pareto']].sort_values(by='Price')
+    if len(pareto_points) >= 2:
+        fig.add_scatter(
+            x=pareto_points['Price'],
+            y=pareto_points['Estimated ROI (%)'],
+            mode='lines+markers',
+            name='Pareto Frontier',
+            line=dict(color='#FF6F91', width=2),
+            marker=dict(color='#FF6F91', size=8),
+        )
+
+    # Style layout
     fig.update_layout(
         width=600,
         height=600,
@@ -276,8 +289,8 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         yaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
         margin=dict(l=40, r=40, t=60, b=40),
     )
-    
-    # --- RENDER CENTERED PLOT ---
+
+    # Centered display
     html_str = fig.to_html(full_html=False, include_plotlyjs='cdn')
     components.html(
         f"""
@@ -287,6 +300,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         """,
         height=650,
     )
+
 
 
 @st.cache_data
