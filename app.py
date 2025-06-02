@@ -62,7 +62,7 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
             line=dict(color='#FF6F91', width=2, dash='dash'),
             marker=dict(color='#FF6F91', size=8),
             customdata=pareto_points[hover_cols],
-            hovertemplate = '<br>'.join(['{}: %{customdata[' + str(i) + ']}'.format(col) for i, col in enumerate(hover_cols)]) + '<extra></extra>'
+            hovertemplate = '<br>'.join([f'{col}: %{{customdata[{i}]}}' for i, col in enumerate(hover_cols)]) + '<extra></extra>'
         )
 
     # Layout and interactivity lock
