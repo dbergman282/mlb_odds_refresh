@@ -293,8 +293,9 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
             x=pareto_points['Price'],
             y=pareto_points['Estimated ROI (%)'],
             mode='lines+markers',
-            name='Pareto Frontier',
-            line=dict(color='#FF6F91', width=2),
+            name='Top Bets',
+            #line=dict(color='#FF6F91', width=2),
+            line=dict(color='#FF6F91', width=2, dash='dash'),
             marker=dict(color='#FF6F91', size=8),
         )
 
