@@ -440,7 +440,7 @@ st.markdown("### <span class='custom-header'>Moneyline Odds</span>", unsafe_allo
 #st.header("Moneyline Odds")
 
 df_moneyline = load_moneyline()
-df_moneyline['ETS Score'] = np.where(df_moneyline['ETS Score'] == 0, 0, np.sign(df_moneyline['ETS Score']) * np.log(np.abs(df_moneyline['ETS Score'])))
+df_moneyline['ETS Score'] = np.where(df_moneyline['ETS Score'] == 0, 0, np.sign(df_moneyline['ETS Score']) * np.log(np.abs(df_moneyline['ETS Score']+1)))
 df_moneyline.sort_values(by='ETS Score',ascending=False,inplace=True)
 
 st.sidebar.header("Moneyline Filters")
