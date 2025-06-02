@@ -229,19 +229,44 @@ filtered_totals = filtered_totals[
 ]
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
-        
-    # Create scatter plot
+            
+    # Sort by ROI descending
+    df_sorted = filtered_totals.sort_values(by='Estimated ROI (%)', ascending=False).copy()
+    
+    # Identify Pareto-optimal points
+    pareto_mask = []
+    max_price = float('-inf')
+    for _, row in df_sorted.iterrows():
+        price = row['Price']
+        if price > max_price:
+            pareto_mask.append(True)
+            max_price = price
+        else:
+            pareto_mask.append(False)
+    df_sorted['is_pareto'] = pareto_mask
+    
+    # Assign marker color
+    def assign_color(row):
+        if row['Estimated ROI (%)'] < 0:
+            return '#5A5A5A'      # Grey for negative ROI
+        elif row['is_pareto']:
+            return '#FF6F91'      # Coral pink for Pareto-optimal
+        else:
+            return '#00B8D9'      # Theme blue for others
+    
+    df_sorted['marker_color'] = df_sorted.apply(assign_color, axis=1)
+    
+    # --- BUILD PLOT ---
     fig = px.scatter(
-        filtered_totals,
+        df_sorted,
         x='Price',
         y='Estimated ROI (%)',
-        hover_data=filtered_totals.columns,
+        hover_data=df_sorted.columns,
         title="🔢 Totals: Price vs ROI",
     )
-    
-    # Update theme + fix marker color
+    fig.update_traces(marker=dict(size=8), marker_color=df_sorted['marker_color'])
     fig.update_layout(
-        width=800,
+        width=600,
         height=600,
         plot_bgcolor='#121317',
         paper_bgcolor='#121317',
@@ -251,9 +276,8 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         yaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
         margin=dict(l=40, r=40, t=60, b=40),
     )
-    fig.update_traces(marker=dict(color='#00B8D9', size=8))
     
-    # Render HTML
+    # --- RENDER CENTERED PLOT ---
     html_str = fig.to_html(full_html=False, include_plotlyjs='cdn')
     components.html(
         f"""
@@ -261,7 +285,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
             {html_str}
         </div>
         """,
-        height=750,
+        height=650,
     )
 
 @st.cache_data
