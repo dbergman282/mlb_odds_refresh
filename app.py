@@ -75,21 +75,39 @@ st.write(f"Last simulation start time: **{current_time}**")
 
 # === SECTION 1: Game Summary ===
 df_game = load_game_details()
-st.markdown("### <span class='custom-header'>All Games</span>", unsafe_allow_html=True)
-#st.header("All Games")
+with st.expander("📋 All Games", expanded=False):
+    st.sidebar.header("Games Filters")
+    game_selected = st.sidebar.multiselect("Game Status", sorted(df_game["Game Status"].dropna().unique()), default=[])
+    away_team_selected = st.sidebar.multiselect("Away Team", sorted(df_game["Away Team"].dropna().unique()), default=[])
+    home_team_selected = st.sidebar.multiselect("Home Team", sorted(df_game["Home Team"].dropna().unique()), default=[])
 
-st.sidebar.header("Games Filters")
-game_selected = st.sidebar.multiselect("Game Status", sorted(df_game["Game Status"].dropna().unique()), default=[])
-away_team_selected = st.sidebar.multiselect("Away Team", sorted(df_game["Away Team"].dropna().unique()), default=[])
-home_team_selected = st.sidebar.multiselect("Home Team", sorted(df_game["Home Team"].dropna().unique()), default=[])
+    filtered_game = df_game.copy()
+    if game_selected:
+        filtered_game = filtered_game[filtered_game["Game Status"].isin(game_selected)]
+    if away_team_selected:
+        filtered_game = filtered_game[filtered_game["Away Team"].isin(away_team_selected)]
+    if home_team_selected:
+        filtered_game = filtered_game[filtered_game["Home Team"].isin(home_team_selected)]
 
-filtered_game = df_game.copy()
-if game_selected:
-    filtered_game = filtered_game[filtered_game["Game Status"].isin(game_selected)]
-if away_team_selected:
-    filtered_game = filtered_game[filtered_game["Away Team"].isin(away_team_selected)]
-if home_team_selected:
-    filtered_game = filtered_game[filtered_game["Home Team"].isin(home_team_selected)]
+    st.dataframe(filtered_game, use_container_width=True)
+
+# # === SECTION 1: Game Summary ===
+# df_game = load_game_details()
+# st.markdown("### <span class='custom-header'>All Games</span>", unsafe_allow_html=True)
+# #st.header("All Games")
+
+# st.sidebar.header("Games Filters")
+# game_selected = st.sidebar.multiselect("Game Status", sorted(df_game["Game Status"].dropna().unique()), default=[])
+# away_team_selected = st.sidebar.multiselect("Away Team", sorted(df_game["Away Team"].dropna().unique()), default=[])
+# home_team_selected = st.sidebar.multiselect("Home Team", sorted(df_game["Home Team"].dropna().unique()), default=[])
+
+# filtered_game = df_game.copy()
+# if game_selected:
+#     filtered_game = filtered_game[filtered_game["Game Status"].isin(game_selected)]
+# if away_team_selected:
+#     filtered_game = filtered_game[filtered_game["Away Team"].isin(away_team_selected)]
+# if home_team_selected:
+#     filtered_game = filtered_game[filtered_game["Home Team"].isin(home_team_selected)]
 
 st.dataframe(filtered_game, use_container_width=True)
 
