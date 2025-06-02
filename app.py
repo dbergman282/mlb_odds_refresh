@@ -91,26 +91,6 @@ with st.expander("📋 All Games", expanded=False):
 
     st.dataframe(filtered_game, use_container_width=True)
 
-# # === SECTION 1: Game Summary ===
-# df_game = load_game_details()
-# st.markdown("### <span class='custom-header'>All Games</span>", unsafe_allow_html=True)
-# #st.header("All Games")
-
-# st.sidebar.header("Games Filters")
-# game_selected = st.sidebar.multiselect("Game Status", sorted(df_game["Game Status"].dropna().unique()), default=[])
-# away_team_selected = st.sidebar.multiselect("Away Team", sorted(df_game["Away Team"].dropna().unique()), default=[])
-# home_team_selected = st.sidebar.multiselect("Home Team", sorted(df_game["Home Team"].dropna().unique()), default=[])
-
-# filtered_game = df_game.copy()
-# if game_selected:
-#     filtered_game = filtered_game[filtered_game["Game Status"].isin(game_selected)]
-# if away_team_selected:
-#     filtered_game = filtered_game[filtered_game["Away Team"].isin(away_team_selected)]
-# if home_team_selected:
-#     filtered_game = filtered_game[filtered_game["Home Team"].isin(home_team_selected)]
-
-#st.dataframe(filtered_game, use_container_width=True)
-
 @st.cache_data
 def load_dfs():
     return pd.read_csv(st.secrets["DFS_URL"], index_col=False)
@@ -152,8 +132,8 @@ filtered_dfs = filtered_dfs[
     filtered_dfs["DFS Mean"].between(*dfs_mean_range) &
     filtered_dfs["Model Confidence"].between(*dfs_conf_range)
 ]
-
-st.dataframe(filtered_dfs, use_container_width=True)
+with st.expander("📊  DFS Projections", expanded=False):
+    st.dataframe(filtered_dfs, use_container_width=True)
 
 # === SECTION 2: Moneyline Odds ===
 st.markdown("### <span class='custom-header'>Moneyline Odds</span>", unsafe_allow_html=True)
