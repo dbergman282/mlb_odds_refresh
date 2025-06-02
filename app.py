@@ -78,6 +78,13 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
         margin=dict(l=40, r=40, t=60, b=40),
         dragmode=False,
         hovermode='closest',
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="center",
+            x=0.5
+        ),
     )
 
     # Disable zoom/pan/select, allow hover
