@@ -403,7 +403,7 @@ filtered_totals = filtered_totals[
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
     #draw_top_bets_plot(filtered_totals,"🔢 Totals: Price vs ROI")
-    draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI")
+    draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI",['Bookmaker','Point'])
 
 
 @st.cache_data
