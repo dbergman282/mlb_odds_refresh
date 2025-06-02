@@ -265,9 +265,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         title="🔢 Totals: Price vs ROI",
     )
     fig.update_traces(marker=dict(size=8), marker_color=df_sorted['marker_color'])
-    
-    df_sorted = filtered_totals[filtered_totals["Estimated ROI (%)"] > 0].copy()
-    df_sorted = df_sorted.sort_values(by='Estimated ROI (%)', ascending=False)
+
     # Add Pareto frontier line if more than 1 point
     pareto_points = df_sorted[df_sorted['is_pareto']].sort_values(by='Price')
     if len(pareto_points) >= 2:
