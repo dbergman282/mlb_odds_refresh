@@ -229,16 +229,16 @@ filtered_totals = filtered_totals[
 ]
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
-            
+    
     # Sort by ROI descending
     df_sorted = filtered_totals.sort_values(by='Estimated ROI (%)', ascending=False).copy()
     
-    # Identify Pareto-optimal points
+    # Identify Pareto-optimal points (more robust logic)
     pareto_mask = []
-    max_price = float('-inf')
+    max_price = None
     for _, row in df_sorted.iterrows():
         price = row['Price']
-        if price > max_price:
+        if max_price is None or price > max_price:
             pareto_mask.append(True)
             max_price = price
         else:
@@ -287,6 +287,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         """,
         height=650,
     )
+
 
 @st.cache_data
 def load_pitcher_props():
