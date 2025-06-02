@@ -231,7 +231,9 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
 
     # Sort by ROI descending
-    df_sorted = filtered_totals.sort_values(by='Estimated ROI (%)', ascending=False).copy()
+    df_sorted = filtered_totals[filtered_totals["Estimated ROI (%)"] > 0].copy()
+    df_sorted = df_sorted.sort_values(by='Estimated ROI (%)', ascending=False)
+   # df_sorted = filtered_totals.sort_values(by='Estimated ROI (%)', ascending=False).copy()
 
     # Identify Pareto-optimal points
     pareto_mask = []
