@@ -24,7 +24,7 @@ def draw_top_bets_plot_arguments_ets(df, title="", hover_columns=None):
 
     # Sort and mark Pareto-optimal
     df_sorted = df.sort_values(by='ETS Score', ascending=False).copy()
-    df_sorted['log_price'] = np.log(df_scored['Price'])
+    df_sorted['log_price'] = np.log(df_sorted['Price'])
     df_sorted['is_pareto'] = False
     positive_roi = df_sorted[df_sorted['ETS Score'] > 0].sort_values(by='ETS Score', ascending=False)
     pareto_indices, max_price = [], None
