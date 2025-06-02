@@ -487,6 +487,8 @@ with st.expander("💸 Expand to View Moneyline Bets", expanded=False):
 st.markdown("### <span class='custom-header'>Totals Odds</span>", unsafe_allow_html=True)
 
 df_totals = load_totals()
+df_totals['ETS Score'] = np.where(df_totals['ETS Score'] == 0, 0, np.sign(df_totals['ETS Score']) * np.log(np.abs(df_totals['ETS Score'])))
+
 
 # df_totals['Kelly'] = np.where(
 #     df_totals['Estimated ROI (%)'] > 0,
