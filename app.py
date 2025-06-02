@@ -9,6 +9,7 @@ st.set_page_config(
     page_icon="⚾",  # or use a URL to a favicon
     layout="wide"
 )
+
 def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
 
     # Default hover columns
@@ -113,7 +114,7 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
         f"<div style='display: flex; justify-content: center; align-items: center;'>{html_str}</div>",
         height=650,
     )
-    # st.plotly_chart(fig, use_container_width=False)
+
 
 
 def draw_top_bets_plot(df, title=""):
@@ -366,6 +367,7 @@ filtered_moneyline = filtered_moneyline[
 with st.expander("💸 Expand to View Moneyline Bets", expanded=False):
     st.dataframe(filtered_moneyline, use_container_width=True)
 
+    draw_top_bets_plot_arguments(filtered_totals,"💸 Moneyline: Price vs ROI",list(filtered_moneyline.columns))
 
 
 
@@ -416,10 +418,6 @@ filtered_totals = filtered_totals[
 ]
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
-    #draw_top_bets_plot(filtered_totals,"🔢 Totals: Price vs ROI")
-    #st.write("Column names before plotting:", filtered_totals.columns.tolist())
-    #st.write("Are any duplicated?", filtered_totals.columns.duplicated().any())
-    #filtered_totals = filtered_totals.loc[:, ~filtered_totals.columns.duplicated()].copy()
     draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI",list(filtered_totals.columns))
 
 
@@ -467,6 +465,7 @@ filtered_pitcher = filtered_pitcher[
 ]
 with st.expander("🤾‍♂️⚾ Expand to View Pitcher Props", expanded=False):
     st.dataframe(filtered_pitcher, use_container_width=True)
+    draw_top_bets_plot_arguments(filtered_pitcher,"🤾‍♂️⚾ Pitcher Props: Price vs ROI",list(filtered_pitcher.columns))
 
 @st.cache_data
 def load_batter_props():
@@ -512,4 +511,6 @@ filtered_batter = filtered_batter[
 
 with st.expander("🥎🔨 Expand to View Batter Props", expanded=False):
     st.dataframe(filtered_batter, use_container_width=True)
+    
+    draw_top_bets_plot_arguments(filtered_batter,"🥎🔨 Batter Props: Price vs ROI",list(filtered_batter.columns))
 
