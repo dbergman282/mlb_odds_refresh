@@ -461,10 +461,10 @@ teams_moneyline = st.sidebar.multiselect(
     default=[]
 )
 
-
-conf_range_moneyline = numeric_slider(df_moneyline, "Game Confidence", "Game Confidence (Moneyline)")
-price_range_moneyline = numeric_slider(df_moneyline, "Price", "Price Range (Moneyline)")
+ets_range_moneyline = numeric_slider(df_moneyline, "ETS Score", "ETS Range (Moneyline)")
 roi_range_moneyline = numeric_slider(df_moneyline, "Estimated ROI (%)", "ROI (%) Range (Moneyline)")
+price_range_moneyline = numeric_slider(df_moneyline, "Price", "Price Range (Moneyline)")
+conf_range_moneyline = numeric_slider(df_moneyline, "Game Confidence", "Game Confidence (Moneyline)")
 
 filtered_moneyline = df_moneyline.copy()
 if mlb_game_ids_moneyline:
@@ -474,6 +474,9 @@ if bookmakers_moneyline:
 if teams_moneyline:
     filtered_moneyline = filtered_moneyline[filtered_moneyline["Team"].isin(teams_moneyline)]
 
+filtered_moneyline = filtered_moneyline[
+    filtered_moneyline["ETS Score"].between(*ets_range_moneyline)
+]
 filtered_moneyline = filtered_moneyline[
     filtered_moneyline["Game Confidence"].between(*conf_range_moneyline)
 ]
@@ -529,8 +532,9 @@ bookmakers_totals = st.sidebar.multiselect(
     default=[]
 )
 ets_range_totals = numeric_slider(df_totals, "ETS Score", "ETS Range (Totals)")
-price_range_totals = numeric_slider(df_totals, "Price", "Price Range (Totals)")
 roi_range_totals = numeric_slider(df_totals, "Estimated ROI (%)", "ROI (%) Range (Totals)")
+price_range_totals = numeric_slider(df_totals, "Price", "Price Range (Totals)")
+conf_range_totals = numeric_slider(df_totals, "Game Confidence", "Price Range (Totals)")
 
 filtered_totals = df_totals.copy()
 if mlb_game_ids_totals:
@@ -544,6 +548,7 @@ if bookmakers_totals:
 
 filtered_totals = filtered_totals[
     filtered_totals["ETS Score"].between(*ets_range_totals) &
+    filtered_totals["Game Confidence"].between(*conf_range_totals) &
     filtered_totals["Price"].between(*price_range_totals) &
     filtered_totals["Estimated ROI (%)"].between(*roi_range_totals)
 ]
@@ -577,9 +582,11 @@ pitcher_books = st.sidebar.multiselect("Bookmaker (Pitchers)", sorted(df_pitcher
 pitcher_markets = st.sidebar.multiselect("Market (Pitchers)", sorted(df_pitcher["Market"].dropna().unique()), default=[])
 pitcher_lineup = st.sidebar.multiselect("Lineup Confirmed (Pitchers)", sorted(df_pitcher["Lineup Confirmed"].dropna().unique()), default=[])
 
-pitcher_point_range = numeric_slider(df_pitcher, "Point", "Point Range (Pitchers)")
-pitcher_price_range = numeric_slider(df_pitcher, "Price", "Price Range (Pitchers)")
+
+pitcher_ets_range = numeric_slider(df_pitcher, "ETS Score", "ETS Range (Pitchers)")
 pitcher_roi_range = numeric_slider(df_pitcher, "Estimated ROI (%)", "ROI (%) Range (Pitchers)")
+pitcher_price_range = numeric_slider(df_pitcher, "Price", "Price Range (Pitchers)")
+#pitcher_point_range = numeric_slider(df_pitcher, "Point", "Point Range (Pitchers)")
 pitcher_conf_range = numeric_slider(df_pitcher, "Model Confidence", "Model Confidence Range (Pitchers)")
 
 filtered_pitcher = df_pitcher.copy()
@@ -595,7 +602,7 @@ if pitcher_lineup:
     filtered_pitcher = filtered_pitcher[filtered_pitcher["Lineup Confirmed"].isin(pitcher_lineup)]
 
 filtered_pitcher = filtered_pitcher[
-    filtered_pitcher["Point"].between(*pitcher_point_range) &
+    filtered_pitcher["ETS Score"].between(*pitcher_ets_range) &
     filtered_pitcher["Price"].between(*pitcher_price_range) &
     filtered_pitcher["Estimated ROI (%)"].between(*pitcher_roi_range) &
     filtered_pitcher["Model Confidence"].between(*pitcher_conf_range)
@@ -626,9 +633,9 @@ batter_books = st.sidebar.multiselect("Bookmaker (Batters)", sorted(df_batter["B
 batter_markets = st.sidebar.multiselect("Market (Batters)", sorted(df_batter["Market"].dropna().unique()), default=[])
 batter_lineup = st.sidebar.multiselect("Lineup Confirmed (Batters)", sorted(df_batter["Lineup Confirmed"].dropna().unique()), default=[])
 
-batter_point_range = numeric_slider(df_batter, "Point", "Point Range (Batters)")
-batter_price_range = numeric_slider(df_batter, "Price", "Price Range (Batters)")
+batter_ets_range = numeric_slider(df_batter, "EST Score", "ETS Range (Batters)")
 batter_roi_range = numeric_slider(df_batter, "Estimated ROI (%)", "ROI (%) Range (Batters)")
+batter_price_range = numeric_slider(df_batter, "Price", "Price Range (Batters)")
 batter_conf_range = numeric_slider(df_batter, "Model Confidence", "Model Confidence Range (Batters)")
 
 filtered_batter = df_batter.copy()
@@ -644,9 +651,9 @@ if batter_lineup:
     filtered_batter = filtered_batter[filtered_batter["Lineup Confirmed"].isin(batter_lineup)]
 
 filtered_batter = filtered_batter[
-    filtered_batter["Point"].between(*batter_point_range) &
-    filtered_batter["Price"].between(*batter_price_range) &
+    filtered_batter["ETS Score"].between(*batter_ets_range) &
     filtered_batter["Estimated ROI (%)"].between(*batter_roi_range) &
+    filtered_batter["Price"].between(*batter_price_range) &
     filtered_batter["Model Confidence"].between(*batter_conf_range)
 ]
 
