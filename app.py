@@ -365,7 +365,7 @@ filtered_moneyline = filtered_moneyline[
     filtered_moneyline["Estimated ROI (%)"].between(*roi_range_moneyline)
 ]
 with st.expander("💸 Expand to View Moneyline Bets", expanded=False):
-    st.dataframe(filtered_moneyline, use_container_width=True,height=400)
+    st.dataframe(filtered_moneyline, use_container_width=True,height=200)
 
     draw_top_bets_plot_arguments(filtered_moneyline,"💸 Moneyline: Price vs ROI",list(filtered_moneyline.columns))
 
