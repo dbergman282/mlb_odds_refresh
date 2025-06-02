@@ -50,6 +50,14 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
         title=title,
     )
     fig.update_traces(marker=dict(size=8), marker_color=df_sorted['marker_color'])
+    fig.add_scatter(
+        x=[None],
+        y=[None],
+        mode='markers',
+        name=' ',
+        marker=dict(opacity=0),
+        showlegend=True
+    )
 
     # Add dashed Pareto line with custom hover
     pareto_points = df_sorted[df_sorted['is_pareto']].sort_values(by='Price')
@@ -80,7 +88,7 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
         legend=dict(
             orientation="h",
             yanchor="top",
-            y=1,           # inside the plot area at the top
+            y=1.02,           # inside the plot area at the top
             xanchor="center",
             x=0.5
         ),
