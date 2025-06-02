@@ -81,7 +81,7 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
         legend=dict(
             orientation="h",
             yanchor="bottom",
-            y=1.02,
+            y=0.5,
             xanchor="center",
             x=0.5
         ),
