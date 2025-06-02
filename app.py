@@ -235,16 +235,36 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
     df_sorted = filtered_totals.sort_values(by='Estimated ROI (%)', ascending=False).copy()
 
     # Identify Pareto-optimal points
-    pareto_mask = []
+    # pareto_mask = []
+    # max_price = None
+    # for _, row in df_sorted.iterrows():
+    #     price = row['Price']
+    #     if max_price is None or price >= max_price:
+    #         pareto_mask.append(True)
+    #         max_price = price
+    #     else:
+    #         pareto_mask.append(False)
+    # df_sorted['is_pareto'] = pareto_mask
+
+    # Initialize all as not Pareto
+    df_sorted['is_pareto'] = False
+    
+    # Filter only rows with positive ROI
+    positive_roi = df_sorted[df_sorted['Estimated ROI (%)'] > 0]
+    positive_roi = positive_roi.sort_values(by='Estimated ROI (%)', ascending=False)
+    
+    # Track Pareto-optimal rows
+    pareto_indices = []
     max_price = None
-    for _, row in df_sorted.iterrows():
+    for idx, row in positive_roi.iterrows():
         price = row['Price']
         if max_price is None or price >= max_price:
-            pareto_mask.append(True)
+            pareto_indices.append(idx)
             max_price = price
-        else:
-            pareto_mask.append(False)
-    df_sorted['is_pareto'] = pareto_mask
+    
+    # Mark those in original DataFrame
+    df_sorted.loc[pareto_indices, 'is_pareto'] = True
+
 
     # Assign marker color
     def assign_color(row):
