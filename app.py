@@ -10,10 +10,8 @@ st.set_page_config(
     layout="wide"
 )
 
-import plotly.express as px
-import streamlit.components.v1 as components
 
-def draw_top_bets_plot(df):
+def draw_top_bets_plot(df, title=""):
     # Sort by ROI descending
     df_sorted = df.sort_values(by='Estimated ROI (%)', ascending=False).copy()
 
@@ -46,6 +44,7 @@ def draw_top_bets_plot(df):
         x='Price',
         y='Estimated ROI (%)',
         hover_data=df_sorted.columns,
+        title=title,
     )
     fig.update_traces(marker=dict(size=8), marker_color=df_sorted['marker_color'])
 
@@ -68,10 +67,10 @@ def draw_top_bets_plot(df):
         plot_bgcolor='#121317',
         paper_bgcolor='#121317',
         font=dict(color='#FFFFFF'),
+        title_font=dict(size=20, color='#00B8D9'),
         xaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
         yaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
-        margin=dict(l=40, r=40, t=30, b=40),
-        showlegend=False,
+        margin=dict(l=40, r=40, t=60, b=40),
     )
 
     # Display centered
@@ -301,7 +300,7 @@ filtered_totals = filtered_totals[
 ]
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
-    draw_top_bets_plot(filtered_totals)
+    draw_top_bets_plot(filtered_totals,"🔢 Totals: Price vs ROI")
 
 
 @st.cache_data
