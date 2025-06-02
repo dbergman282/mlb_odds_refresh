@@ -351,6 +351,8 @@ teams_moneyline = st.sidebar.multiselect(
     sorted(df_moneyline["Team"].dropna().unique()), 
     default=[]
 )
+
+price_range_moneyline = numeric_slider(df_moneyline, "Price", "Price Range (Moneyline)")
 roi_range_moneyline = numeric_slider(df_moneyline, "Estimated ROI (%)", "ROI (%) Range (Moneyline)")
 
 filtered_moneyline = df_moneyline.copy()
@@ -361,6 +363,9 @@ if bookmakers_moneyline:
 if teams_moneyline:
     filtered_moneyline = filtered_moneyline[filtered_moneyline["Team"].isin(teams_moneyline)]
 
+filtered_moneyline = filtered_moneyline[
+    filtered_moneyline["Price"].between(*price_range_moneyline)
+]
 filtered_moneyline = filtered_moneyline[
     filtered_moneyline["Estimated ROI (%)"].between(*roi_range_moneyline)
 ]
