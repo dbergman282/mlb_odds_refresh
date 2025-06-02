@@ -109,7 +109,7 @@ with st.expander("📋 All Games", expanded=False):
 # if home_team_selected:
 #     filtered_game = filtered_game[filtered_game["Home Team"].isin(home_team_selected)]
 
-st.dataframe(filtered_game, use_container_width=True)
+#st.dataframe(filtered_game, use_container_width=True)
 
 @st.cache_data
 def load_dfs():
