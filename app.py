@@ -549,9 +549,9 @@ st.markdown("### <span class='custom-header'>Pitcher Props</span>", unsafe_allow
 #st.header("Pitcher Props")
 
 df_pitcher = load_pitcher_props()
-df_pitcher['Kelly'] = (df_pitcher['Estimated ROI (%)']/100.0)/(df_pitcher['Price']-1)
-df_pitcher['ETS Score'] = df_pitcher['Kelly']*df_pitcher['Model Confidence']
-df_pitcher.sort_values(by='ETS Score',ascending=False,inplace=True)
+# df_pitcher['Kelly'] = (df_pitcher['Estimated ROI (%)']/100.0)/(df_pitcher['Price']-1)
+# df_pitcher['ETS Score'] = df_pitcher['Kelly']*df_pitcher['Model Confidence']
+# df_pitcher.sort_values(by='ETS Score',ascending=False,inplace=True)
 
 st.sidebar.header("Pitcher Prop Filters")
 pitcher_names = st.sidebar.multiselect("Pitcher Name", sorted(df_pitcher["Normalized Name"].dropna().unique()), default=[])
@@ -585,8 +585,8 @@ filtered_pitcher = filtered_pitcher[
 ]
 with st.expander("🤾‍♂️⚾ Expand to View Pitcher Props", expanded=False):
     st.dataframe(filtered_pitcher, use_container_width=True,height=200)
-    #draw_top_bets_plot_arguments(filtered_pitcher,"🤾‍♂️⚾ Pitcher Props: Price vs ROI",list(filtered_pitcher.columns))
-    draw_top_bets_plot_arguments_ets(filtered_pitcher,"🤾‍♂️⚾ Pitcher Props: Price vs ETS Score",list(filtered_pitcher.columns))
+    draw_top_bets_plot_arguments(filtered_pitcher,"🤾‍♂️⚾ Pitcher Props: Price vs ROI",list(filtered_pitcher.columns))
+    #draw_top_bets_plot_arguments_ets(filtered_pitcher,"🤾‍♂️⚾ Pitcher Props: Price vs ETS Score",list(filtered_pitcher.columns))
 
 @st.cache_data
 def load_batter_props():
