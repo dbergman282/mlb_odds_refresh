@@ -73,8 +73,14 @@ def draw_top_bets_plot(df, title=""):
         margin=dict(l=40, r=40, t=60, b=40),
     )
 
-    # Display centered
-    html_str = fig.to_html(full_html=False, include_plotlyjs='cdn')
+    html_str = fig.to_html(full_html=False, include_plotlyjs='cdn', config={
+        'displayModeBar': False,     # hides toolbar
+        'staticPlot': False,         # allows hovering
+        'scrollZoom': False,         # disables scroll zoom
+        'editable': False,           # disables dragging/editing
+        'doubleClick': False,        # disables double-click zoom reset
+        'displaylogo': False         # hides Plotly logo
+    })
     components.html(
         f"<div style='display: flex; justify-content: center; align-items: center;'>{html_str}</div>",
         height=650,
