@@ -661,6 +661,6 @@ with st.expander("🥎🔨 Expand to View Batter Props", expanded=False):
     st.dataframe(filtered_batter, use_container_width=True,height=200)
     
     #draw_top_bets_plot_arguments(filtered_batter,"🥎🔨 Batter Props: Price vs ROI",list(filtered_batter.columns))
-    draw_top_bets_plot_arguments_ets(filtered_pitcher,"🥎🔨 Batter Props: Price vs ETS Score",list(filtered_pitcher.columns))
+    draw_top_bets_plot_arguments_ets(filtered_batter,"🥎🔨 Batter Props: Price vs ETS Score",list(filtered_pitcher.columns))
 
 
