@@ -499,7 +499,7 @@ df_totals.sort_values(by=['ETS Score'],ascending=False, inplace=True)
 #     0
 # )
     
-df_totals.sort_values(by='Estimated ROI (%)',ascending=False,inplace=True)
+# df_totals.sort_values(by='Estimated ROI (%)',ascending=False,inplace=True)
 
 st.sidebar.header("Totals Filters")
 mlb_game_ids_totals = st.sidebar.multiselect(
