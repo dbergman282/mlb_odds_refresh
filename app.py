@@ -489,7 +489,7 @@ with st.expander("💸 Expand to View Moneyline Bets", expanded=False):
 st.markdown("### <span class='custom-header'>Totals Odds</span>", unsafe_allow_html=True)
 
 df_totals = load_totals()
-df_totals['ETS Score'] = np.where(df_totals['ETS Score'] == 0, 0, np.sign(df_totals['ETS Score']) * np.log(np.abs(df_totals['ETS Score'])))
+df_totals['ETS Score'] = np.where(df_totals['ETS Score'] == 0, 0, np.sign(df_totals['ETS Score']) * np.log1p(np.abs(df_totals['ETS Score'])))
 df_totals.sort_values(by=['ETS Score'],ascending=False, inplace=True)
 
 # df_totals['Kelly'] = np.where(
@@ -555,7 +555,7 @@ st.markdown("### <span class='custom-header'>Pitcher Props</span>", unsafe_allow
 #st.header("Pitcher Props")
 
 df_pitcher = load_pitcher_props()
-df_pitcher['ETS Score'] = np.where(df_pitcher['ETS Score'] == 0, 0, np.sign(df_pitcher['ETS Score']) * np.log(np.abs(df_pitcher['ETS Score'])))
+df_pitcher['ETS Score'] = np.where(df_pitcher['ETS Score'] == 0, 0, np.sign(df_pitcher['ETS Score']) * np.log1p(np.abs(df_pitcher['ETS Score'])))
 
 # df_pitcher['Kelly'] = (df_pitcher['Estimated ROI (%)']/100.0)/(df_pitcher['Price']-1)
 # df_pitcher['ETS Score'] = df_pitcher['Kelly']*df_pitcher['Model Confidence']
@@ -605,7 +605,7 @@ st.markdown("### <span class='custom-header'>Batter Props</span>", unsafe_allow_
 
 
 df_batter = load_batter_props()
-df_batter['ETS Score'] = np.where(df_batter['ETS Score'] == 0, 0, np.sign(df_batter['ETS Score']) * np.log(np.abs(df_batter['ETS Score'])))
+df_batter['ETS Score'] = np.where(df_batter['ETS Score'] == 0, 0, np.sign(df_batter['ETS Score']) * np.log1p(np.abs(df_batter['ETS Score'])))
 
 df_batter.sort_values(by='ETS Score',ascending=False,inplace=True)
 
