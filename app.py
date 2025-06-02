@@ -90,7 +90,7 @@ if away_team_selected:
 if home_team_selected:
     filtered_game = filtered_game[filtered_game["Home Team"].isin(home_team_selected)]
     
-with st.expander("Expand to View", expanded=False):
+with st.expander("📋 Expand to View Daily MLB Games", expanded=False):
     st.dataframe(filtered_game, use_container_width=True)
 
 @st.cache_data
@@ -135,7 +135,7 @@ filtered_dfs = filtered_dfs[
     filtered_dfs["Model Confidence"].between(*dfs_conf_range)
 ]
 
-with st.expander("📊  Expand to View", expanded=False):
+with st.expander("📊 Expand to View DFS Projections for Every Starting Player", expanded=False):
     st.dataframe(filtered_dfs, use_container_width=True)
 
 # === SECTION 2: Moneyline Odds ===
@@ -174,8 +174,8 @@ if teams_moneyline:
 filtered_moneyline = filtered_moneyline[
     filtered_moneyline["Estimated ROI (%)"].between(*roi_range_moneyline)
 ]
-
-st.dataframe(filtered_moneyline, use_container_width=True)
+with st.expander("💰 Expand to View Moneyline Bets", expanded=False):
+    st.dataframe(filtered_moneyline, use_container_width=True)
 
 # === SECTION 3: Totals Odds ===
 #st.header("Totals Odds")
