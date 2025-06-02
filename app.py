@@ -51,7 +51,7 @@ def draw_top_bets_plot_arguments_ets(df, title="", hover_columns=None):
         hover_data=hover_cols,
         title=title,
     )
-    fig.update_traces(marker=dict(size=8), marker_color=df_sorted['marker_color'])
+    fig.update_traces(marker=dict(size=5), marker_color=df_sorted['marker_color'])
     fig.add_scatter(
         x=[None],
         y=[None],
@@ -70,7 +70,7 @@ def draw_top_bets_plot_arguments_ets(df, title="", hover_columns=None):
             mode='lines+markers',
             name='Top Bets',
             line=dict(color='#FF6F91', width=2, dash='dash'),
-            marker=dict(color='#FF6F91', size=8),
+            marker=dict(color='#FF6F91', size=5),
             customdata=pareto_points[hover_cols],
             hovertemplate = '<br>'.join([f'{col}: %{{customdata[{i}]}}' for i, col in enumerate(hover_cols)]) + '<extra></extra>'
         )
