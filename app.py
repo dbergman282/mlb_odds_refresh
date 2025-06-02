@@ -90,7 +90,7 @@ if away_team_selected:
 if home_team_selected:
     filtered_game = filtered_game[filtered_game["Home Team"].isin(home_team_selected)]
     
-with st.expander("📋 Expand to View Daily MLB Games", expanded=False):
+with st.expander("🗓️ Expand to View Daily MLB Games", expanded=False):
     st.dataframe(filtered_game, use_container_width=True)
 
 @st.cache_data
@@ -135,7 +135,7 @@ filtered_dfs = filtered_dfs[
     filtered_dfs["Model Confidence"].between(*dfs_conf_range)
 ]
 
-with st.expander("📊 Expand to View DFS Projections for Every Starting Player", expanded=False):
+with st.expander("🎯 Expand to View DFS Projections for Every Starting Player", expanded=False):
     st.dataframe(filtered_dfs, use_container_width=True)
 
 # === SECTION 2: Moneyline Odds ===
@@ -174,8 +174,11 @@ if teams_moneyline:
 filtered_moneyline = filtered_moneyline[
     filtered_moneyline["Estimated ROI (%)"].between(*roi_range_moneyline)
 ]
-with st.expander("💰 Expand to View Moneyline Bets", expanded=False):
+with st.expander("💸 Expand to View Moneyline Bets", expanded=False):
     st.dataframe(filtered_moneyline, use_container_width=True)
+
+
+
 
 # === SECTION 3: Totals Odds ===
 #st.header("Totals Odds")
@@ -222,8 +225,8 @@ filtered_totals = filtered_totals[
     filtered_totals["Price"].between(*price_range_totals) &
     filtered_totals["Estimated ROI (%)"].between(*roi_range_totals)
 ]
-
-st.dataframe(filtered_totals, use_container_width=True)
+with st.expander("🔢 Expand to View Totals", expanded=False):
+    st.dataframe(filtered_totals, use_container_width=True)
 
 
 @st.cache_data
@@ -267,8 +270,8 @@ filtered_pitcher = filtered_pitcher[
     filtered_pitcher["Estimated ROI (%)"].between(*pitcher_roi_range) &
     filtered_pitcher["Model Confidence"].between(*pitcher_conf_range)
 ]
-
-st.dataframe(filtered_pitcher, use_container_width=True)
+with st.expander("🤾‍♂️⚾ Expand to View Pitcher Props", expanded=False):
+    st.dataframe(filtered_pitcher, use_container_width=True)
 
 @st.cache_data
 def load_batter_props():
@@ -312,5 +315,6 @@ filtered_batter = filtered_batter[
     filtered_batter["Model Confidence"].between(*batter_conf_range)
 ]
 
-st.dataframe(filtered_batter, use_container_width=True)
+with st.expander("🥎🔨 Expand to View Batter Props", expanded=False):
+    st.dataframe(filtered_batter, use_container_width=True)
 
