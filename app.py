@@ -444,6 +444,7 @@ df_moneyline['ETS Score'] = np.where(df_moneyline['ETS Score'] == 0, 0, np.sign(
 df_moneyline.sort_values(by='ETS Score',ascending=False,inplace=True)
 
 st.sidebar.header("Moneyline Filters")
+
 mlb_game_ids_moneyline = st.sidebar.multiselect(
     "MLB Game ID (Moneyline)", 
     sorted(df_moneyline["MLB Game ID"].dropna().unique()), 
@@ -460,6 +461,8 @@ teams_moneyline = st.sidebar.multiselect(
     default=[]
 )
 
+
+conf_range_moneyline = numeric_slider(df_moneyline, "Game Confidence", "Game Confidence (Moneyline)")
 price_range_moneyline = numeric_slider(df_moneyline, "Price", "Price Range (Moneyline)")
 roi_range_moneyline = numeric_slider(df_moneyline, "Estimated ROI (%)", "ROI (%) Range (Moneyline)")
 
@@ -471,6 +474,9 @@ if bookmakers_moneyline:
 if teams_moneyline:
     filtered_moneyline = filtered_moneyline[filtered_moneyline["Team"].isin(teams_moneyline)]
 
+filtered_moneyline = filtered_moneyline[
+    filtered_moneyline["Game Confidence"].between(*conf_range_moneyline)
+]
 filtered_moneyline = filtered_moneyline[
     filtered_moneyline["Price"].between(*price_range_moneyline)
 ]
@@ -522,6 +528,7 @@ bookmakers_totals = st.sidebar.multiselect(
     sorted(df_totals["Bookmaker"].dropna().unique()), 
     default=[]
 )
+ets_range_totals = numeric_slider(df_totals, "ETS Score", "ETS Range (Totals)")
 price_range_totals = numeric_slider(df_totals, "Price", "Price Range (Totals)")
 roi_range_totals = numeric_slider(df_totals, "Estimated ROI (%)", "ROI (%) Range (Totals)")
 
@@ -536,6 +543,7 @@ if bookmakers_totals:
     filtered_totals = filtered_totals[filtered_totals["Bookmaker"].isin(bookmakers_totals)]
 
 filtered_totals = filtered_totals[
+    filtered_totals["ETS Score"].between(*ets_range_totals) &
     filtered_totals["Price"].between(*price_range_totals) &
     filtered_totals["Estimated ROI (%)"].between(*roi_range_totals)
 ]
