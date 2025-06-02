@@ -239,8 +239,8 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
     
     # Match your theme and make square dimensions
     fig.update_layout(
-        width=600,
-        height=600,
+        width=300,
+        height=300,
         plot_bgcolor='#121317',
         paper_bgcolor='#121317',
         font=dict(color='#FFFFFF'),
