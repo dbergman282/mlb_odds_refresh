@@ -109,10 +109,11 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
         'doubleClick': False,
         'displaylogo': False
     })
-    components.html(
-        f"<div style='display: flex; justify-content: center; align-items: center;'>{html_str}</div>",
-        height=650,
-    )
+    # components.html(
+    #     f"<div style='display: flex; justify-content: center; align-items: center;'>{html_str}</div>",
+    #     height=650,
+    # )
+    st.plotly_chart(fig, use_container_width=False)
 
 
 def draw_top_bets_plot(df, title=""):
