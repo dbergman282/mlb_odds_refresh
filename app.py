@@ -75,7 +75,6 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
         title_font=dict(size=20, color='#00B8D9'),
         xaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
         yaxis=dict(title_font=dict(color='#FFFFFF'), tickfont=dict(color='#FFFFFF')),
-        margin=dict(l=40, r=40, t=60, b=40),
         dragmode=False,
         hovermode='closest',
         legend=dict(
