@@ -633,7 +633,7 @@ batter_books = st.sidebar.multiselect("Bookmaker (Batters)", sorted(df_batter["B
 batter_markets = st.sidebar.multiselect("Market (Batters)", sorted(df_batter["Market"].dropna().unique()), default=[])
 batter_lineup = st.sidebar.multiselect("Lineup Confirmed (Batters)", sorted(df_batter["Lineup Confirmed"].dropna().unique()), default=[])
 
-batter_ets_range = numeric_slider(df_batter, "EST Score", "ETS Range (Batters)")
+batter_ets_range = numeric_slider(df_batter, "ETS Score", "ETS Range (Batters)")
 batter_roi_range = numeric_slider(df_batter, "Estimated ROI (%)", "ROI (%) Range (Batters)")
 batter_price_range = numeric_slider(df_batter, "Price", "Price Range (Batters)")
 batter_conf_range = numeric_slider(df_batter, "Model Confidence", "Model Confidence Range (Batters)")
