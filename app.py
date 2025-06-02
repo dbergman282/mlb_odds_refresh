@@ -228,9 +228,7 @@ filtered_totals = filtered_totals[
 ]
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
-
     
-    # Create the plot
     fig = px.scatter(
         filtered_totals,
         x='Price',
@@ -239,7 +237,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         title="🔢 Totals: Price vs ROI",
     )
     
-    # Apply theme and square dimensions
+    # Theme styling and square shape
     fig.update_layout(
         width=600,
         height=600,
@@ -252,10 +250,16 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         margin=dict(l=40, r=40, t=60, b=40),
     )
     
-    # Centered plot with fixed size
-    st.markdown("<div style='display: flex; justify-content: center;'>", unsafe_allow_html=True)
+    # Center the plot visually using a centered div
+    st.markdown(
+        """
+        <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+            <div style="width: 600px;">
+        """,
+        unsafe_allow_html=True
+    )
     st.plotly_chart(fig, use_container_width=False)
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div></div>", unsafe_allow_html=True)
 
 @st.cache_data
 def load_pitcher_props():
