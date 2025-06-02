@@ -79,8 +79,8 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
         hovermode='closest',
         legend=dict(
             orientation="h",
-            yanchor="bottom",
-            y=1,
+            yanchor="top",
+            y=1,           # inside the plot area at the top
             xanchor="center",
             x=0.5
         ),
