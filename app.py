@@ -76,8 +76,8 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
 
     # Layout and interactivity lock
     fig.update_layout(
-        width=900,
-        height=600,
+        width=600,
+        height=400,
         plot_bgcolor='#121317',
         paper_bgcolor='#121317',
         font=dict(color='#FFFFFF'),
@@ -365,7 +365,7 @@ filtered_moneyline = filtered_moneyline[
     filtered_moneyline["Estimated ROI (%)"].between(*roi_range_moneyline)
 ]
 with st.expander("💸 Expand to View Moneyline Bets", expanded=False):
-    st.dataframe(filtered_moneyline, use_container_width=True)
+    st.dataframe(filtered_moneyline, use_container_width=True,height=400)
 
     draw_top_bets_plot_arguments(filtered_moneyline,"💸 Moneyline: Price vs ROI",list(filtered_moneyline.columns))
 
