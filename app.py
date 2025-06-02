@@ -238,7 +238,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
     max_price = None
     for _, row in df_sorted.iterrows():
         price = row['Price']
-        if max_price is None or price > max_price:
+        if max_price is None or price >= max_price:
             pareto_mask.append(True)
             max_price = price
         else:
