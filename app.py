@@ -112,7 +112,7 @@ def draw_top_bets_plot_arguments(df, title="", hover_columns=None):
     })
     components.html(
         f"<div style='display: flex; justify-content: center; align-items: center;'>{html_str}</div>",
-        height=650,
+        height=450,
     )
 
 
