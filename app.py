@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 import plotly.express as px
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="MLB Odds Dashboard",
@@ -229,6 +230,7 @@ filtered_totals = filtered_totals[
 with st.expander("🔢 Expand to View Totals", expanded=False):
     st.dataframe(filtered_totals, use_container_width=True)
     
+    # Create plot
     fig = px.scatter(
         filtered_totals,
         x='Price',
@@ -237,7 +239,7 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         title="🔢 Totals: Price vs ROI",
     )
     
-    # Theme styling and square shape
+    # Style
     fig.update_layout(
         width=600,
         height=600,
@@ -250,16 +252,16 @@ with st.expander("🔢 Expand to View Totals", expanded=False):
         margin=dict(l=40, r=40, t=60, b=40),
     )
     
-    # Center the plot visually using a centered div
-    st.markdown(
-        """
-        <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-            <div style="width: 600px;">
+    # Render as HTML for full centering control
+    html_str = fig.to_html(full_html=False, include_plotlyjs='cdn')
+    components.html(
+        f"""
+        <div style="display: flex; justify-content: center; align-items: center;">
+            {html_str}
+        </div>
         """,
-        unsafe_allow_html=True
+        height=650,
     )
-    st.plotly_chart(fig, use_container_width=False)
-    st.markdown("</div></div>", unsafe_allow_html=True)
 
 @st.cache_data
 def load_pitcher_props():
