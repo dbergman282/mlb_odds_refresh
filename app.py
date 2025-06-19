@@ -328,6 +328,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+st.title("DFS Champion")
+
+# Replace with your desired YouTube URL
+youtube_url = "https://www.google.com/search?q=david+bergman+draftkings+youtbue&sca_esv=43bdce033f74f264&rlz=1C5CHFA_enUS1043US1043&ei=3iZUaJPJK7yiptQP06yl0As&ved=0ahUKEwiTsO_w4P2NAxU8kYkEHVNWCboQ4dUDCBI&uact=5&oq=david+bergman+draftkings+youtbue&gs_lp=Egxnd3Mtd2l6LXNlcnAiIGRhdmlkIGJlcmdtYW4gZHJhZnRraW5ncyB5b3V0YnVlMgcQIRigARgKMgcQIRigARgKMgcQIRigARgKMgcQIRigARgKSLQTUNgNWLkScAJ4AJABAJgBcKAB9gWqAQM2LjK4AQPIAQD4AQGYAgqgAo8GwgIHEAAYsAMYHsICCxAAGLADGKIEGIkFwgIIEAAYsAMY7wXCAgYQABgWGB7CAggQABiiBBiJBcICBRAAGO8FwgIFECEYoAGYAwCIBgGQBgWSBwM4LjKgB8kjsgcDNi4yuAeJBsIHAzEuOcgHEA&sclient=gws-wiz-serp#fpstate=ive&vld=cid:489a3f80,vid:GP-YpFRHK1U,st:0"
+st.video(youtube_url)
+
 # === Refresh Button ===
 if st.sidebar.button("🔄 Refresh All Data"):
     st.cache_data.clear()
