@@ -328,11 +328,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("DFS Champion")
+# st.title("DFS Champion")
 
-# Replace with your desired YouTube URL
-youtube_url = "https://www.youtube.com/watch?v=GP-YpFRHK1U"
-st.video(youtube_url)
+# # Replace with your desired YouTube URL
+# youtube_url = "https://www.youtube.com/watch?v=GP-YpFRHK1U"
+# st.video(youtube_url)
 
 # === Refresh Button ===
 if st.sidebar.button("🔄 Refresh All Data"):
