@@ -503,6 +503,11 @@ with st.expander("💸 Expand to View Moneyline Bets", expanded=False):
     #draw_top_bets_plot_arguments(filtered_moneyline,"💸 Moneyline: Price vs ROI",list(filtered_moneyline.columns))
     draw_top_bets_plot_arguments_ets(filtered_moneyline,"💸 Moneyline: Price vs ETS Score",list(filtered_moneyline.columns))
 
+# === SECTION 2.5: Totals Odds Corrected ===
+st.markdown("### <span class='custom-header'>Totals Odds Corrected</span>", unsafe_allow_html=True)
+df_totals_corrected = load_totals_corrected()
+df_totals_corrected['ETS Score'] = np.where(df_totals_corrected['ETS Score'] == 0, 0, np.sign(df_totals_corrected['ETS Score']) * np.log1p(np.abs(df_totals_corrected['ETS Score'])))
+df_totals_corrected.sort_values(by=['ETS Score'],ascending=False, inplace=True)
 
 # === SECTION 3: Totals Odds ===
 #st.header("Totals Odds")
