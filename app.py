@@ -526,17 +526,17 @@ mlb_game_ids_totals_corrected = st.sidebar.multiselect(
     default=[]
 )
 away_teams_totals_corrected = st.sidebar.multiselect(
-    "Away Team (Totals)", 
+    "Away Team (Totals Corrected)", 
     sorted(df_totals_corrected["Away Team"].dropna().unique()), 
     default=[]
 )
 home_teams_totals_corrected = st.sidebar.multiselect(
-    "Home Team (Totals)", 
+    "Home Team (Totals Corrected)", 
     sorted(df_totals_corrected["Home Team"].dropna().unique()), 
     default=[]
 )
 bookmakers_totals_corrected = st.sidebar.multiselect(
-    "Bookmaker (Totals)", 
+    "Bookmaker (Totals Corrected)", 
     sorted(df_totals_corrected["Bookmaker"].dropna().unique()), 
     default=[]
 )
