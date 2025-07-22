@@ -521,7 +521,7 @@ df_totals_corrected.sort_values(by=['ETS Score'],ascending=False, inplace=True)
 
 st.sidebar.header("Corrected Totals Filters")
 mlb_game_ids_totals_corrected = st.sidebar.multiselect(
-    "MLB Game ID (Totals)", 
+    "MLB Game ID (Totals Corrected)", 
     sorted(df_totals_corrected["MLB Game ID"].dropna().unique()), 
     default=[]
 )
