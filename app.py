@@ -545,16 +545,16 @@ if home_teams_totals_corrected:
 if bookmakers_totals_corrected:
     filtered_totals_corrected = filtered_totals_corrected[filtered_totals_corrected["Bookmaker"].isin(bookmakers_totals_corrected)]
 
-# filtered_totals = filtered_totals[
-#     filtered_totals["ETS Score"].between(*ets_range_totals) &
-#     filtered_totals["Game Confidence"].between(*conf_range_totals) &
-#     filtered_totals["Price"].between(*price_range_totals) &
-#     filtered_totals["Estimated ROI (%)"].between(*roi_range_totals)
-# ]
-# with st.expander("🔢 Expand to View Totals", expanded=False):
-#     st.dataframe(filtered_totals, use_container_width=True,height=200)
-#     #draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI",list(filtered_totals.columns))
-#     draw_top_bets_plot_arguments_ets(filtered_totals,"🔢 Totals: Price vs ETS Score",list(filtered_totals.columns))
+filtered_totals_corrected = filtered_totals_corrected[
+    filtered_totals_corrected["ETS Score"].between(*ets_range_totals_corrected) &
+    filtered_totals_corrected["Game Confidence"].between(*conf_range_totals_corrected) &
+    filtered_totals_corrected["Price"].between(*price_range_totals_corrected) &
+    filtered_totals_corrected["Estimated ROI (%)"].between(*roi_range_totals_corrected)
+]
+with st.expander("🔢 Expand to View Totals Corrected", expanded=False):
+    st.dataframe(filtered_totals_corrected, use_container_width=True,height=200)
+    #draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI",list(filtered_totals.columns))
+    draw_top_bets_plot_arguments_ets(filtered_totals_corrected,"🔢 Totals: Price vs ETS Score",list(filtered_totals_corrected.columns))
 
 
 
