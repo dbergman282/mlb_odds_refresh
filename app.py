@@ -509,7 +509,7 @@ df_totals_corrected = load_totals_corrected()
 df_totals_corrected['ETS Score'] = np.where(df_totals_corrected['ETS Score'] == 0, 0, np.sign(df_totals_corrected['ETS Score']) * np.log1p(np.abs(df_totals_corrected['ETS Score'])))
 df_totals_corrected.sort_values(by=['ETS Score'],ascending=False, inplace=True)
 
-st.sidebar.header("Totals Filters")
+st.sidebar.header("Totals Corrected Filters")
 mlb_game_ids_totals_corrected = st.sidebar.multiselect(
     "MLB Game ID (Totals Corrected)", 
     sorted(df_totals_corrected["MLB Game ID"].dropna().unique()), 
@@ -530,10 +530,10 @@ bookmakers_totals_corrected = st.sidebar.multiselect(
     sorted(df_totals_corrected["Bookmaker"].dropna().unique()), 
     default=[]
 )
-# ets_range_totals = numeric_slider(df_totals, "ETS Score", "ETS Range (Totals)")
-# roi_range_totals = numeric_slider(df_totals, "Estimated ROI (%)", "ROI (%) Range (Totals)")
-# price_range_totals = numeric_slider(df_totals, "Price", "Price Range (Totals)")
-# conf_range_totals = numeric_slider(df_totals, "Game Confidence", "Price Range (Totals)")
+ets_range_totals = numeric_slider(df_totals_corrected, "ETS Score", "ETS Range (Totals Corrected)")
+roi_range_totals = numeric_slider(df_totals_corrected, "Estimated ROI (%)", "ROI (%) Range (Totals Corrected)")
+price_range_totals = numeric_slider(df_totals_corrected, "Price", "Price Range (Totals Corrected)")
+conf_range_totals = numeric_slider(df_totals_corrected, "Game Confidence", "Price Range (Totals Corrected)")
 
 # filtered_totals = df_totals.copy()
 # if mlb_game_ids_totals:
