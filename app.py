@@ -540,10 +540,10 @@ bookmakers_totals_corrected = st.sidebar.multiselect(
     sorted(df_totals_corrected["Bookmaker"].dropna().unique()), 
     default=[]
 )
-ets_range_totals_corrected = numeric_slider(df_totals_corrected, "ETS Score", "ETS Range (Totals)")
-roi_range_totals_corrected  = numeric_slider(df_totals_corrected, "Estimated ROI (%)", "ROI (%) Range (Totals)")
-price_range_totals_corrected  = numeric_slider(df_totals_corrected, "Price", "Price Range (Totals)")
-conf_range_totals_corrected  = numeric_slider(df_totals_corrected, "Game Confidence", "Price Range (Totals)")
+ets_range_totals_corrected = numeric_slider(df_totals_corrected, "ETS Score", "ETS Range (Totals Corrected)")
+roi_range_totals_corrected  = numeric_slider(df_totals_corrected, "Estimated ROI (%)", "ROI (%) Range (Totals Corrected)")
+price_range_totals_corrected  = numeric_slider(df_totals_corrected, "Price", "Price Range (Totals Corrected)")
+conf_range_totals_corrected  = numeric_slider(df_totals_corrected, "Game Confidence", "Price Range (Totals Corrected)")
 
 filtered_totals_corrected = df_totals_corrected.copy()
 if mlb_game_ids_totals_corrected:
