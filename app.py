@@ -530,20 +530,20 @@ bookmakers_totals_corrected = st.sidebar.multiselect(
     sorted(df_totals_corrected["Bookmaker"].dropna().unique()), 
     default=[]
 )
-ets_range_totals = numeric_slider(df_totals_corrected, "ETS Score", "ETS Range (Totals Corrected)")
-roi_range_totals = numeric_slider(df_totals_corrected, "Estimated ROI (%)", "ROI (%) Range (Totals Corrected)")
-price_range_totals = numeric_slider(df_totals_corrected, "Price", "Price Range (Totals Corrected)")
-conf_range_totals = numeric_slider(df_totals_corrected, "Game Confidence", "Price Range (Totals Corrected)")
+ets_range_totals_corrected = numeric_slider(df_totals_corrected, "ETS Score", "ETS Range (Totals Corrected)")
+roi_range_totals_corrected = numeric_slider(df_totals_corrected, "Estimated ROI (%)", "ROI (%) Range (Totals Corrected)")
+price_range_totals_corrected = numeric_slider(df_totals_corrected, "Price", "Price Range (Totals Corrected)")
+conf_range_totals_corrected = numeric_slider(df_totals_corrected, "Game Confidence", "Price Range (Totals Corrected)")
 
-# filtered_totals = df_totals.copy()
-# if mlb_game_ids_totals:
-#     filtered_totals = filtered_totals[filtered_totals["MLB Game ID"].isin(mlb_game_ids_totals)]
-# if away_teams_totals:
-#     filtered_totals = filtered_totals[filtered_totals["Away Team"].isin(away_teams_totals)]
-# if home_teams_totals:
-#     filtered_totals = filtered_totals[filtered_totals["Home Team"].isin(home_teams_totals)]
-# if bookmakers_totals:
-#     filtered_totals = filtered_totals[filtered_totals["Bookmaker"].isin(bookmakers_totals)]
+filtered_totals_corrected = df_totals_corrected.copy()
+if mlb_game_ids_totals_corrected:
+    filtered_totals_corrected = filtered_totals_corrected[filtered_totals_corrected["MLB Game ID"].isin(mlb_game_ids_totals_corrected)]
+if away_teams_totals_corrected:
+    filtered_totals_corrected = filtered_totals_corrected[filtered_totals_corrected["Away Team"].isin(away_teams_totals_corrected)]
+if home_teams_totals_corrected:
+    filtered_totals_corrected = filtered_totals_corrected[filtered_totals_corrected["Home Team"].isin(home_teams_totals_corrected)]
+if bookmakers_totals_corrected:
+    filtered_totals_corrected = filtered_totals_corrected[filtered_totals_corrected["Bookmaker"].isin(bookmakers_totals_corrected)]
 
 # filtered_totals = filtered_totals[
 #     filtered_totals["ETS Score"].between(*ets_range_totals) &
