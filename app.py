@@ -509,6 +509,55 @@ df_totals_corrected = load_totals_corrected()
 df_totals_corrected['ETS Score'] = np.where(df_totals_corrected['ETS Score'] == 0, 0, np.sign(df_totals_corrected['ETS Score']) * np.log1p(np.abs(df_totals_corrected['ETS Score'])))
 df_totals_corrected.sort_values(by=['ETS Score'],ascending=False, inplace=True)
 
+st.sidebar.header("Totals Filters")
+mlb_game_ids_totals_corrected = st.sidebar.multiselect(
+    "MLB Game ID (Totals Corrected)", 
+    sorted(df_totals_corrected["MLB Game ID"].dropna().unique()), 
+    default=[]
+)
+away_teams_totals_corrected = st.sidebar.multiselect(
+    "Away Team (Totals Corrected)", 
+    sorted(df_totals_corrected["Away Team"].dropna().unique()), 
+    default=[]
+)
+home_teams_totals_corrected = st.sidebar.multiselect(
+    "Home Team (Totals Corrected)", 
+    sorted(df_totals_corrected["Home Team"].dropna().unique()), 
+    default=[]
+)
+bookmakers_totals_corrected = st.sidebar.multiselect(
+    "Bookmaker (Totals Corrected)", 
+    sorted(df_totals_corrected["Bookmaker"].dropna().unique()), 
+    default=[]
+)
+# ets_range_totals = numeric_slider(df_totals, "ETS Score", "ETS Range (Totals)")
+# roi_range_totals = numeric_slider(df_totals, "Estimated ROI (%)", "ROI (%) Range (Totals)")
+# price_range_totals = numeric_slider(df_totals, "Price", "Price Range (Totals)")
+# conf_range_totals = numeric_slider(df_totals, "Game Confidence", "Price Range (Totals)")
+
+# filtered_totals = df_totals.copy()
+# if mlb_game_ids_totals:
+#     filtered_totals = filtered_totals[filtered_totals["MLB Game ID"].isin(mlb_game_ids_totals)]
+# if away_teams_totals:
+#     filtered_totals = filtered_totals[filtered_totals["Away Team"].isin(away_teams_totals)]
+# if home_teams_totals:
+#     filtered_totals = filtered_totals[filtered_totals["Home Team"].isin(home_teams_totals)]
+# if bookmakers_totals:
+#     filtered_totals = filtered_totals[filtered_totals["Bookmaker"].isin(bookmakers_totals)]
+
+# filtered_totals = filtered_totals[
+#     filtered_totals["ETS Score"].between(*ets_range_totals) &
+#     filtered_totals["Game Confidence"].between(*conf_range_totals) &
+#     filtered_totals["Price"].between(*price_range_totals) &
+#     filtered_totals["Estimated ROI (%)"].between(*roi_range_totals)
+# ]
+# with st.expander("🔢 Expand to View Totals", expanded=False):
+#     st.dataframe(filtered_totals, use_container_width=True,height=200)
+#     #draw_top_bets_plot_arguments(filtered_totals,"🔢 Totals: Price vs ROI",list(filtered_totals.columns))
+#     draw_top_bets_plot_arguments_ets(filtered_totals,"🔢 Totals: Price vs ETS Score",list(filtered_totals.columns))
+
+
+
 # === SECTION 3: Totals Odds ===
 #st.header("Totals Odds")
 st.markdown("### <span class='custom-header'>Totals Odds</span>", unsafe_allow_html=True)
